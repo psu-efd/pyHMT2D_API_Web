@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyHMT2D.Misc.Terrain &mdash; pyHMT2D 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../contents.html" class="icon icon-home"> pyHMT2D
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html"><em>pyHMT2D</em> - Python Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyHMT2D_API.html">pyHMT2D API</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../contents.html">pyHMT2D</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../contents.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyHMT2D.Misc.Terrain</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyHMT2D.Misc.Terrain</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A Python class for terrain data I/O, creation, and manipulation</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">osr</span>
+
+<span class="kn">from</span> <span class="nn">pyHMT2D.Hydraulic_Models_Data</span> <span class="kn">import</span> <span class="n">HydraulicData</span>
+
+<div class="viewcode-block" id="Terrain"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain">[docs]</a><span class="k">class</span> <span class="nc">Terrain</span><span class="p">(</span><span class="n">HydraulicData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A Python class for terrain data I/O, creation, and manipulation</span>
+
+<span class="sd">    Typical work flow is as follows:</span>
+
+<span class="sd">    1. create the Terrain object</span>
+<span class="sd">    2. create the terrain (elevation, pixel_width/height): user can either call</span>
+<span class="sd">       some pre-defined terrains such as constant slope, or create the terrain by themsleves</span>
+<span class="sd">       and then call set_terrain(...), and set_pixel_size(...)</span>
+<span class="sd">    3. set the georeferencing by calling set_georeference(...)</span>
+<span class="sd">    4. save the terrain to file by calling save_terrain_to_file(...)</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        name of the terrain</span>
+<span class="sd">    elevation : numpy.ndarray</span>
+<span class="sd">        elevation of the terrain (2D numpy array)</span>
+<span class="sd">    geoTopLeft_x : float</span>
+<span class="sd">        raster&#39;s top-left corner georeferenced x-coordinate</span>
+<span class="sd">    geoTopLeft_y : float</span>
+<span class="sd">        raster&#39;s top-left corner georeferenced y-coordinate</span>
+<span class="sd">    pixel_width : float</span>
+<span class="sd">        pixel width (in x), i.e, each pixel is how many meters/feet wide?</span>
+<span class="sd">    pixel_height : float</span>
+<span class="sd">        pixel height (in y), i.e, each pixel is how many meters/feet high?</span>
+<span class="sd">    EPSGCode : int</span>
+<span class="sd">        EPSG (European Petroleum Survey Group) code that defines the coordinate reference system</span>
+<span class="sd">    geoTransform : list</span>
+<span class="sd">        affine transform for the raster image from image pixel to real coordinates</span>
+<span class="sd">    supportedGDALDrivers : list</span>
+<span class="sd">        list of supported GDAL drivers (short names only)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Terrain class constructor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            name of the terrain</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">HydraulicData</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Terrain&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>      <span class="c1"># name of the terrain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span> <span class="c1"># elevation of the terrain, should be 2D numpy array</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">geoTopLeft_x</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="c1"># raster&#39;s top-left corner georeferenced location</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geoTopleft_y</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="c1"># pixel width (in x), i.e, each pixel is how many meters/feet wide?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="c1"># pixel height (in y)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">EPSGCode</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c1"># EPSG (European Petroleum Survey Group) code that defines the coordinate reference system</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">geoTransform</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># affine transform for the raster image from image pixel to real coordinates</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">supportedGDALDrivers</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">#list of supported GDAL drivers (short names only)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_supported_GDAL_drivers_list</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="Terrain.get_terrain_name"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.get_terrain_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_terrain_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the terrain name</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            name of the terrain</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+<div class="viewcode-block" id="Terrain.get_elevation"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.get_elevation">[docs]</a>    <span class="k">def</span> <span class="nf">get_elevation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the elevation array</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        elevation : numpy.array</span>
+<span class="sd">            elevation 2D array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span></div>
+
+<div class="viewcode-block" id="Terrain.set_elevation"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.set_elevation">[docs]</a>    <span class="k">def</span> <span class="nf">set_elevation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elevation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the elevation array</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        _______</span>
+<span class="sd">        elevation : numpy.ndarray</span>
+<span class="sd">            elevation 2D array</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span> <span class="o">=</span> <span class="n">elevation</span></div>
+
+<div class="viewcode-block" id="Terrain.set_pixel_size"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.set_pixel_size">[docs]</a>    <span class="k">def</span> <span class="nf">set_pixel_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pixel_width</span><span class="p">,</span> <span class="n">pixel_height</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the pixel size in x and y directions</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pixel_width : float</span>
+<span class="sd">            the width of each pixel in real world</span>
+<span class="sd">        pixel_height : float</span>
+<span class="sd">            the height of each pixel in real world</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span> <span class="o">=</span> <span class="n">pixel_width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span> <span class="o">=</span> <span class="n">pixel_height</span></div>
+
+<div class="viewcode-block" id="Terrain.build_supported_GDAL_drivers_list"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.build_supported_GDAL_drivers_list">[docs]</a>    <span class="k">def</span> <span class="nf">build_supported_GDAL_drivers_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build the list of supported GDAL drivers list</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverCount</span><span class="p">()):</span>
+            <span class="n">drv</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriver</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">supportedGDALDrivers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">drv</span><span class="o">.</span><span class="n">ShortName</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Supported GDAL drivers are: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">supportedGDALDrivers</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Terrain.create_constant_slope_channel_elevation"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.create_constant_slope_channel_elevation">[docs]</a>    <span class="k">def</span> <span class="nf">create_constant_slope_channel_elevation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">channel_lenx</span><span class="p">,</span> <span class="n">channel_leny</span><span class="p">,</span> <span class="n">pixel_width</span><span class="p">,</span>
+                                              <span class="n">pixel_height</span><span class="p">,</span> <span class="n">elevation_origin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">extra_len</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a constant slope channel elevation</span>
+
+<span class="sd">        The slope is in the x direction only. The slope in the y direction is zero.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        slope : float</span>
+<span class="sd">            slope in x</span>
+<span class="sd">        channel_lenx : float</span>
+<span class="sd">            channel length in x</span>
+<span class="sd">        channel_leny : float</span>
+<span class="sd">            channel length in y</span>
+<span class="sd">        elevation_origin : float</span>
+<span class="sd">            the elevation at the origin (top left; does not account for the extra fringe)</span>
+<span class="sd">        extra_len : float</span>
+<span class="sd">            optional extra fringe length added to the channel domain (to</span>
+<span class="sd">            have some free room in developing 2D models in e.g., SMS or HEC-RAS.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># raster image width and height in pixels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span> <span class="o">=</span> <span class="n">pixel_width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span> <span class="o">=</span> <span class="n">pixel_height</span>
+
+        <span class="c1">#raster size (without extra length)</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">channel_lenx</span><span class="o">/</span><span class="n">pixel_width</span><span class="p">)</span>
+        <span class="n">ny</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">channel_leny</span><span class="o">/</span><span class="n">pixel_height</span><span class="p">)</span>
+
+        <span class="c1">#extra length (fringe)</span>
+        <span class="n">extra_len_nx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">extra_len</span><span class="o">/</span><span class="n">pixel_width</span><span class="p">)</span>
+        <span class="n">extra_len_ny</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">extra_len</span><span class="o">/</span><span class="n">pixel_height</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">ny</span><span class="o">+</span><span class="n">extra_len_ny</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="n">nx</span><span class="o">+</span><span class="n">extra_len_nx</span><span class="o">*</span><span class="mi">2</span><span class="p">))</span>
+
+        <span class="c1">#set the elevation</span>
+        <span class="k">for</span> <span class="n">iy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ny</span> <span class="o">+</span> <span class="n">extra_len_ny</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nx</span> <span class="o">+</span> <span class="n">extra_len_nx</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="p">[</span><span class="n">iy</span><span class="p">,</span> <span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">elevation_origin</span> <span class="o">-</span><span class="n">slope</span> <span class="o">*</span> <span class="p">(</span><span class="n">ix</span><span class="o">-</span><span class="n">extra_len_nx</span><span class="p">)</span> <span class="o">*</span> <span class="n">pixel_width</span></div>
+
+<div class="viewcode-block" id="Terrain.set_georeference"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.set_georeference">[docs]</a>    <span class="k">def</span> <span class="nf">set_georeference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geoTopLeft_x</span><span class="p">,</span> <span class="n">geoTopLeft_y</span><span class="p">,</span> <span class="n">EPSGCode</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the georeferencing information</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        geoTopLeft_x : float</span>
+<span class="sd">            raster&#39;s top-left corner georeferenced x location</span>
+<span class="sd">        geoTopLeft_y : float</span>
+<span class="sd">            raster&#39;s top-left corner georeferenced y location</span>
+<span class="sd">        EPSGCode : int</span>
+<span class="sd">            EPSG (European Petroleum Survey Group) code that defines the coordinate reference system</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Either pixel_width or pixel_height is negative. Need to create the terrain first.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exiting...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">geoTopLeft_x</span> <span class="o">=</span> <span class="n">geoTopLeft_x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geoTopleft_y</span> <span class="o">=</span> <span class="n">geoTopLeft_y</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">geoTransform</span> <span class="o">=</span> <span class="p">[</span><span class="n">geoTopLeft_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">geoTopleft_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">EPSGCode</span> <span class="o">=</span> <span class="n">EPSGCode</span></div>
+
+<div class="viewcode-block" id="Terrain.save_terrain_to_file"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.save_terrain_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">save_terrain_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">terrainFileName</span><span class="p">,</span> <span class="n">geoDriverName</span> <span class="o">=</span> <span class="s1">&#39;GTiff&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;save terrain to file, such as GeoTiff</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        terrainFileName : str</span>
+<span class="sd">            file name for the saved terrain</span>
+<span class="sd">        geoDriverName : str</span>
+<span class="sd">            GDAL raster driver names, such as &#39;GTiff&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Save the terrain to file:&quot;</span><span class="p">,</span> <span class="n">terrainFileName</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">geoDriverName</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">supportedGDALDrivers</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The provided geoDriverName&quot;</span><span class="p">,</span> <span class="n">geoDriverName</span><span class="p">,</span> <span class="s2">&quot;is not supported.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Supported GDAL driver names are:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">supportedGDALDrivers</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exiting...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> \
+                <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EPSGCode</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">geoTransform</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Terrain data is not complete. Missing elevation, pixel size, EPSG code, &quot;</span>
+                  <span class="s2">&quot;or geoTransform.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exiting...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="n">driver</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="n">geoDriverName</span><span class="p">)</span>
+        <span class="n">dst_filename</span> <span class="o">=</span> <span class="n">terrainFileName</span>
+        <span class="n">dst_ds</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">dst_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GDT_Float32</span><span class="p">)</span>
+
+        <span class="n">dst_ds</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">geoTransform</span><span class="p">)</span>
+
+        <span class="n">srs</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+        <span class="n">srs</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EPSGCode</span><span class="p">)</span>
+
+        <span class="n">dst_ds</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">srs</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
+
+        <span class="n">dst_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="p">)</span>
+
+        <span class="c1"># Once we&#39;re done, close properly the dataset</span>
+        <span class="n">dst_ds</span> <span class="o">=</span> <span class="kc">None</span></div></div>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020-2021, Xiaofeng Liu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

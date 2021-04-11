@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyHMT2D - Python Hydraulic Modeling Tools - 2D &mdash; pyHMT2D 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyHMT2D API" href="pyHMT2D_API.html" />
+    <link rel="prev" title="Indices and tables" href="contents.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="contents.html" class="icon icon-home"> pyHMT2D
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><em>pyHMT2D</em> - Python Hydraulic Modeling Tools - 2D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#motivations">Motivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-usage">Example Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#acknowledgements-and-references">Acknowledgements and references</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#author">Author</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributors-and-contributor-agreement">Contributors and contributor agreement</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-list-of-contributors">The list of contributors:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contributor-agreement">Contributor agreement</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyHMT2D_API.html">pyHMT2D API</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="contents.html">pyHMT2D</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="contents.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><em>pyHMT2D</em> - Python Hydraulic Modeling Tools - 2D</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<a class="reference external image-reference" href="https://github.com/psu-efd/pyHMT2D"><img alt="pyHMT2D" src="https://github.com/psu-efd/pyHMT2D/raw/main/docs/source/_static/images/pyhmt2d_logo_vel_color_vector.png" /></a>
+<div class="section" id="pyhmt2d-python-hydraulic-modeling-tools-2d">
+<h1><em>pyHMT2D</em> - Python Hydraulic Modeling Tools - 2D<a class="headerlink" href="#pyhmt2d-python-hydraulic-modeling-tools-2d" title="Permalink to this headline">¶</a></h1>
+<p><em>pyHMT2D</em> is a Python package developed to control and (semi)automate 2D
+hydraulic modeling, and pre-/postprocessing simulation results.
+Currently, the following hydraulic models are supported:</p>
+<ul class="simple">
+<li><p>SRH-2D</p></li>
+<li><p>HEC-RAS</p></li>
+</ul>
+<p>In the future, suport for more 2D models will be added.</p>
+<div class="section" id="motivations">
+<h2>Motivations<a class="headerlink" href="#motivations" title="Permalink to this headline">¶</a></h2>
+<p>Two-dimensional (2D) hydraulic modeling, replacing one-dimensional (1D)
+modeling, has become the work horse for most engineering purposes in
+practice. Many agencies, such as U.S. DOT, Bureau of Reclamation (USBR),
+FEMA, and U.S. Army Corp of Engineers (USACE), have developed and
+promoted 2D hydraulic models to fulfill their respective missions.
+Example 2D models are SRH-2D (USBR) and HEC-RAS 2D (USACE). The
+motivations of this package are as follows:</p>
+<ul class="simple">
+<li><p>One major motivation of this package is to efficiently and
+automatically run 2D hydraulic modeling simulations, for example,
+batch simulations to calibrate model runs. Many of the 2D models have
+some automation to certain degree. However, these models and their
+GUIs are closed source. Therefore, a modeler is limited to what
+he/she can do.</p></li>
+<li><p>Most 2D models have good user interface and they have capability to
+produce good result visualizations and analysis. However, with this
+package and the power of the VTK library, 2D hydraulic modeling
+results can be visualized and analyzed with more flexibility and
+efficiency.</p></li>
+<li><p>This package also serves as a bridge between 2D hydraulic models and
+the Python universe where many powerful libraries exist, for example
+statistics, machine learning, GIS, and parallel computing.</p></li>
+<li><p>The read/write and transformation of 2D hydraulic model results can be
+used to feed other models which use the simulated flow field, for
+example external water quality models and fish models.</p></li>
+<li><p>Model inter-comparison and evaluation. Almost all 2D hydraulic models
+solve the shallow-water equations. However, every model does it
+differently. How these differences manifest in their results and how
+to quantify/interpret the differences are of great interest to
+practitioners.</p></li>
+</ul>
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<p>For SRH-2D modeling:</p>
+<ul class="simple">
+<li><p>read SRH-2D results</p></li>
+<li><p>convert SRH-2D results to VTK format, one of the most popular format for
+scientific data</p></li>
+<li><p>sample and probe simulation results (with the functionalities of VTK
+library)</p></li>
+<li><p>control SRH-2D simulations</p></li>
+</ul>
+<p>For HEC-RAS 2D modeling:</p>
+<ul class="simple">
+<li><p>read RAS2D results (HDF files)</p></li>
+<li><p>convert RAS2D results to VTK</p>
+<ul>
+<li><p>point and cell center data (depht, water surface elevation,
+velocity, etc.)</p></li>
+<li><p>interpolate between point and cell data</p></li>
+<li><p>face data (e.g., subterrain data)</p></li>
+</ul>
+</li>
+<li><p>convert RAS2D mesh, boundary conditions, and Manningâ€™s n data into
+SRH-2D format such that SRH-2D and HEC-RAS 2D can run a case with
+exactly the same mesh for comparison purpose. Additionally, HEC-RAS
+2D can be used as a mesh generator for SRH-2D.</p></li>
+<li><p>sample and probe simulation results (with the functionalities of VTK
+library)</p></li>
+<li><p>control HEC-RAS 2D simulations</p></li>
+</ul>
+<p>With the control and automation capability above, it is much easier to
+do the following:</p>
+<ul class="simple">
+<li><p>automatic calibration of models with available optimization and
+calibration Python packages. Currently, “scipy“‘s “optimize” module is supported, which
+includes many local and global optimization methods.</p></li>
+<li><p>Monte-Carlo simulations with scripting and Pythonâ€™s statistic
+libraries</p></li>
+<li><p>…</p></li>
+</ul>
+<p>Other features:</p>
+<ul class="simple">
+<li><p>calculate the difference between simulation results (regardless they are on the same mesh or not)</p></li>
+<li><p>create and manipulate terrain data</p></li>
+</ul>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>This package uses the following libraries:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.h5py.org/">h5py</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Kitware/VTK">vtk</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/pywin32/">pywin32</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/GDAL/">gdal</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/affine/">affine</a></p></li>
+</ul>
+<p>You can install these requirements all at once by first getting the the “<a class="reference external" href="https://github.com/psu-efd/pyHMT2D/blob/main/requirements.txt">requirements.txt</a>”
+file from <em>pyHMT2D</em>’s GitHub Repository. Then, in a terminal (preferably with a dedicated Python virtual environment activated), do</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>There are several ways to install <em>pyHMT2D</em>.</p>
+<ul class="simple">
+<li><p>Install from <cite>pip</cite></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install pyHMT2D
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Directly install from GitHub with <cite>pip</cite></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install git+https://github.com/psu-efd/pyHMT2D.git
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Clone the GitHub repository to your local machine and
+add the local <em>pyHMT2D</em>’s directory to your Python path</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/psu-efd/pyHMT2D.git
+</pre></div>
+</div>
+<blockquote>
+<div><p>If you use this approach to install <em>pyHMT2D</em>, in order to make the Python Interpreter aware of <em>pyHMT2D</em>, you need to add the path to <em>pyHMT2D</em> to the <em>PYTHONPATH</em>. There are several ways to do it. See the user manual for details. One example is to add the path in your Python code.</p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;/path/to/pyHMT2D&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<p>To use <em>pyHMT2D</em> in your Python code, simply add</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyHMT2D</span>
+</pre></div>
+</div>
+<p>One example to use <em>pyHMT2D</em> to control the run of HEC-RAS is as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#create a HEC-RAS model instance</span>
+<span class="n">my_hec_ras_model</span> <span class="o">=</span> <span class="n">pyHMT2D</span><span class="o">.</span><span class="n">RAS_2D</span><span class="o">.</span><span class="n">HEC_RAS_Model</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;5.0.7&quot;</span><span class="p">,</span>
+                                                <span class="n">faceless</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1">#initialize the HEC-RAS model</span>
+<span class="n">my_hec_ras_model</span><span class="o">.</span><span class="n">init_model</span><span class="p">()</span>
+
+<span class="c1">#open a HEC-RAS project</span>
+<span class="n">my_hec_ras_model</span><span class="o">.</span><span class="n">open_project</span><span class="p">(</span><span class="s2">&quot;Muncie2D.prj&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Terrain/TerrainMuncie_composite.tif&quot;</span><span class="p">)</span>
+
+<span class="c1">#run the HEC-RAS model&#39;s current project</span>
+<span class="n">my_hec_ras_model</span><span class="o">.</span><span class="n">run_model</span><span class="p">()</span>
+
+<span class="c1">#close the HEC-RAS project</span>
+<span class="n">my_hec_ras_model</span><span class="o">.</span><span class="n">close_project</span><span class="p">()</span>
+
+<span class="c1">#quit HEC-RAS</span>
+<span class="n">my_hec_ras_model</span><span class="o">.</span><span class="n">exit_model</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>More examples can be found in the “examples” directory.</p>
+</div>
+<div class="section" id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
+<p>For SRH-2D:</p>
+<ul class="simple">
+<li><p>This package is developed and tested with SRH-2D v3.3; other versions
+may work but has not been tested.</p></li>
+<li><p>Currently <em>pyHMT2D</em> cannot manipulate other things such as hydraulic structures in the case configuration files.
+More functionalities will be added in the future.</p></li>
+</ul>
+<p>For HEC-RAS 2D:</p>
+<ul class="simple">
+<li><p>Only one 2D flow area is supported.</p></li>
+<li><p>Only 2D flow area information is processed; others such as 1D
+channels and structures are ignored.</p></li>
+<li><p>Only flow data is processes; others such as sediment and water
+quality are ignored.</p></li>
+<li><p>This package is developed and tested with HEC-RAS v5.0.7 and v6.0
+beta; other versions may work but has not been tested.</p></li>
+</ul>
+</div>
+<div class="section" id="acknowledgements-and-references">
+<h2>Acknowledgements and references<a class="headerlink" href="#acknowledgements-and-references" title="Permalink to this headline">¶</a></h2>
+<p><em>pyHMT2D</em> utilizes and/or benefits from several open source codes. The usage
+of these codes strictly follows proper copyright laws and their licenses (see
+the copies of their original licenses in the â€œlicensesâ€ directory). We
+acknowledge their contributions.</p>
+<p>In particular, the following packages were used:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/solomonvimal/pyras">PyRAS - Python for River
+AnalysiS</a></p></li>
+<li><p><a class="reference external" href="https://github.com/latomkovic/HaD-to-Py">HaD-to-Py</a></p></li>
+</ul>
+<p>Some of the examples and tests use dataset from public domain or authorized sources:</p>
+<ul class="simple">
+<li><p>Munice case data from HEC-RAS example data set (public domain)</p></li>
+<li><p>Duck Pond case data from Penn State University (with authorization for research and teaching purposes only)</p></li>
+<li><p><a class="reference external" href="https://www.usgs.gov/core-science-systems/ngp/3dep">Lidar data set from USGS</a> (public domain)</p></li>
+</ul>
+<p>The inclusion of these data sets in <em>pyHMT2D</em> is strictly for demonstration purpose only. Reuse or
+repurpose of these dataset without explicit authorization from the original owner or copyright
+holder is not permitted.</p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>MIT</p>
+</div>
+<div class="section" id="author">
+<h2>Author<a class="headerlink" href="#author" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Xiaofeng Liu, Ph.D., P.E.</div>
+<div class="line">Associate Professor</div>
+</div>
+<div class="line-block">
+<div class="line">Department of Civil and Environmental Engineering</div>
+<div class="line">Institute of Computational and Data Sciences</div>
+<div class="line">Penn State University</div>
+</div>
+<p>223B Sackett Building, University Park, PA 16802</p>
+<p>Web: <a class="reference external" href="http://water.engr.psu.edu/liu/">http://water.engr.psu.edu/liu/</a></p>
+</div>
+<div class="section" id="contributors-and-contributor-agreement">
+<h2>Contributors and contributor agreement<a class="headerlink" href="#contributors-and-contributor-agreement" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-list-of-contributors">
+<h3>The list of contributors:<a class="headerlink" href="#the-list-of-contributors" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>(To be added)</p></li>
+</ul>
+</div>
+<div class="section" id="contributor-agreement">
+<h3>Contributor agreement<a class="headerlink" href="#contributor-agreement" title="Permalink to this headline">¶</a></h3>
+<p>First of all, thanks for your interest in contributing to <em>pyHMT2D</em>. Collectively, we can make <em>pyHMT2D</em> more
+powerful, better, and easier to use.</p>
+<p>Because of legal reasons and like many successful open source projects, contributors have to sign
+a “Contributor License Agreement” to grant their rights to “Us”. See details of the agreement on GitHub.
+The signing of the agreement is automatic when a pull request is issued.</p>
+<p>If you are just a user of <em>pyHMT2D</em>, the contributor agreement is irrelevant.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="pyHMT2D_API.html" class="btn btn-neutral float-right" title="pyHMT2D API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="contents.html" class="btn btn-neutral float-left" title="Indices and tables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020-2021, Xiaofeng Liu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,2060 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyHMT2D API &mdash; pyHMT2D 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="pyHMT2D - Python Hydraulic Modeling Tools - 2D" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="contents.html" class="icon icon-home"> pyHMT2D
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html"><em>pyHMT2D</em> - Python Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyHMT2D API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyHMT2D.Hydraulic_Models_Data_Base">pyHMT2D base classes, constants, and tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#backwater-1d-related-classes-and-tools">Backwater-1D related classes and tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#srh-2d-related-classes-and-tools">SRH-2D related classes and tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hec-ras-related-classes-and-tools">HEC-RAS related classes and tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#miscellaneous-classes-and-tools">Miscellaneous classes and tools</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="contents.html">pyHMT2D</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="contents.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>pyHMT2D API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="pyhmt2d-api">
+<h1>pyHMT2D API<a class="headerlink" href="#pyhmt2d-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pyHMT2D.Hydraulic_Models_Data_Base">
+<span id="pyhmt2d-base-classes-constants-and-tools"></span><h2>pyHMT2D base classes, constants, and tools<a class="headerlink" href="#module-pyHMT2D.Hydraulic_Models_Data_Base" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">HydraulicData</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hydraulic data base class</p>
+<dl class="py attribute">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData.name">
+<code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of the hydraulic mode that this data is for, e.g., SRH-2D, HEC-RAS,
+or just the name of the data set, e.g., terrain, flow</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData.clear_data">
+<code class="sig-name descname"><span class="pre">clear_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData.clear_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>clear the data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData.init_data">
+<code class="sig-name descname"><span class="pre">init_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData.init_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData.modify_ManningsN">
+<code class="sig-name descname"><span class="pre">modify_ManningsN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">materialID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newManningsNValue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">materialName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData.modify_ManningsN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify materialID’s Manning’s n value to new value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>materialID</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – material ID</p></li>
+<li><p><strong>newManningsNValue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – new Manning’s n value</p></li>
+<li><p><strong>materialName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the material</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData.reset_data">
+<code class="sig-name descname"><span class="pre">reset_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData.reset_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the data</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">HydraulicModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hydraulic model base class</p>
+<dl class="py attribute">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel.name">
+<code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of the hydraulic model, e.g., SRH-2D, HEC-RAS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel.version">
+<code class="sig-name descname"><span class="pre">version</span></code><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>version of the hydaulic model, e.g., 3.3, 5.0.7, 6.0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel.exit_model">
+<code class="sig-name descname"><span class="pre">exit_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel.exit_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit the model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel.init_model">
+<code class="sig-name descname"><span class="pre">init_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel.init_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel.run_model">
+<code class="sig-name descname"><span class="pre">run_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel.run_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the model</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt id="pyHMT2D.__common__.gMax_Nodes_per_Element">
+<code class="sig-name descname"><span class="pre">gMax_Nodes_per_Element</span></code><a class="headerlink" href="#pyHMT2D.__common__.gMax_Nodes_per_Element" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum number of nodes for an element</p>
+</dd></dl>
+
+<dl class="py data">
+<dt id="pyHMT2D.__common__.gMax_Elements_per_Node">
+<code class="sig-name descname"><span class="pre">gMax_Elements_per_Node</span></code><a class="headerlink" href="#pyHMT2D.__common__.gMax_Elements_per_Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum number of elements for a node</p>
+</dd></dl>
+
+</div>
+<div class="section" id="backwater-1d-related-classes-and-tools">
+<h2>Backwater-1D related classes and tools<a class="headerlink" href="#backwater-1d-related-classes-and-tools" title="Permalink to this headline">¶</a></h2>
+<p>Package summary for Backwater-1D:</p>
+<span class="target" id="module-pyHMT2D.Backwater_1D"></span><dl class="py class">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Data">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Backwater_1D_Data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_json_file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class for Backwater-1D data I/O, manipulation, and format conversion</p>
+<p>Backwater_1D_Data class constructor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config_json_file_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the JSON configuration file</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Data.build_ManningNFunc">
+<code class="sig-name descname"><span class="pre">build_ManningNFunc</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Data.build_ManningNFunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the Manning’s n interpolation function based on the Manning’s n zone information</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Data.load_configuration_data">
+<code class="sig-name descname"><span class="pre">load_configuration_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Data.load_configuration_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load only the configuration data (not result) from the JSON file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Data.modify_ManningsN">
+<code class="sig-name descname"><span class="pre">modify_ManningsN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">materialIDs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newManningsNValues</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">materialNames</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Data.modify_ManningsN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify materialID’s Manning’s n value to new value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>materialIDs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – material ID list</p></li>
+<li><p><strong>newManningsNValues</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – new Manning’s n value list</p></li>
+<li><p><strong>ManningN_MaterialNames</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – name of materials list</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Data.outputResultToVTK">
+<code class="sig-name descname"><span class="pre">outputResultToVTK</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Data.outputResultToVTK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output result data to vtkUnstructuredGrid</p>
+<p>This has to be called after the result has been obtained by running the model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – directory to write to</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>vtkFileName</strong> – name of the output vTK file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Data.write_configuration_data_to_JSON">
+<code class="sig-name descname"><span class="pre">write_configuration_data_to_JSON</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Data.write_configuration_data_to_JSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the configuration data only (not result) to JSON file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>json_file_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the JSON file to write to</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Model">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Backwater_1D_Model</span></code><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple 1D backwater curve model .</p>
+<p>Attributes:</p>
+<p>SRH_2D_Model constructor</p>
+<dl class="py method">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Model.get_simulation_case">
+<code class="sig-name descname"><span class="pre">get_simulation_case</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Model.get_simulation_case" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the simulation case</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Model.init_model">
+<code class="sig-name descname"><span class="pre">init_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Model.init_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize Backwater-1D model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Model.run_model">
+<code class="sig-name descname"><span class="pre">run_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Model.run_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the Backwater-1D model</p>
+<p>It will run the current Backwater-1D case.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Backwater_1D.Backwater_1D_Model.set_simulation_case">
+<code class="sig-name descname"><span class="pre">set_simulation_case</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backwater_1d_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.Backwater_1D.Backwater_1D_Model.set_simulation_case" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the simulation case to backwater_1D_data (if it has been created already)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>backwater_1d_data</strong> (<a class="reference internal" href="#pyHMT2D.Backwater_1D.Backwater_1D_Data" title="pyHMT2D.Backwater_1D.Backwater_1D_Data"><em>Backwater_1D_Data</em></a>) – an object from class Backwater_1D_Data, which should be created before calling</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="srh-2d-related-classes-and-tools">
+<h2>SRH-2D related classes and tools<a class="headerlink" href="#srh-2d-related-classes-and-tools" title="Permalink to this headline">¶</a></h2>
+<p>Package summary for SRH-2D:</p>
+<span class="target" id="module-pyHMT2D.SRH_2D"></span><dl class="py class">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">SRH_2D_Data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srhhydro_filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class for SRH-2D data I/O, manipulation, and format conversion</p>
+<p>This class is designed to read SRH-2D results in format other than VTK. It can
+save SRH-2D results into VTK format for visualization in Paraview, parse
+SRH-2D mesh information and convert/save to other formats, query SRH-2D
+results (e.g., for calibration), etc.</p>
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.hdf_filename">
+<code class="sig-name descname"><span class="pre">hdf_filename</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.hdf_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name for the HDF result file generated by HEC-RAS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.srhhydro_obj">
+<code class="sig-name descname"><span class="pre">srhhydro_obj</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.srhhydro_obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object to hold information in the SRHHYDRO file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro" title="pyHMT2D.SRH_2D.SRH_2D_SRHHydro">SRH_2D_SRHHydro</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.srhgeom_obj">
+<code class="sig-name descname"><span class="pre">srhgeom_obj</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.srhgeom_obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object to hold information in the SRHGEOM file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyHMT2D.SRH_2D.SRH_2D_SRHGeom" title="pyHMT2D.SRH_2D.SRH_2D_SRHGeom">SRH_2D_SRHGeom</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.srhmat_obj">
+<code class="sig-name descname"><span class="pre">srhmat_obj</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.srhmat_obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object to hold information in the SRHMAT file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyHMT2D.SRH_2D.SRH_2D_SRHMat" title="pyHMT2D.SRH_2D.SRH_2D_SRHMat">SRH_2D_SRHMat</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Constructor for SRH_2D_Data</p>
+<p>srhgeom_filename and srhmat_filename are contained in the SRHHydro file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>srhhydro_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Name of the SRHHydro file</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.buildManningN_cells_nodes">
+<code class="sig-name descname"><span class="pre">buildManningN_cells_nodes</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.buildManningN_cells_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build Manning’s n values at cell centers and nodes</p>
+<p>This calculation is based on the srhhydro and srhgeom files, not interpolation from a GeoTiff file. This is the
+Manning’s n value used by SRH-2D.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.cell_center_to_vertex">
+<code class="sig-name descname"><span class="pre">cell_center_to_vertex</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cell_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertex_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.cell_center_to_vertex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate result from cell center to vertex</p>
+<p>Not implemented yet.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.get_case_name">
+<code class="sig-name descname"><span class="pre">get_case_name</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.get_case_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the “Case” name for this current case (“Case” in srhhyro file)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>case_name</strong> – Case name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.outputVTK">
+<code class="sig-name descname"><span class="pre">outputVTK</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vtkFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resultVarNames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resultData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bNodal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.outputVTK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output result to VTK file</p>
+<p>The supplied resultVarNames and resultData should be compatible with the mesh. If resultVarNames is empty,
+it only outputs the mesh with no data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vtkFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name for the output vtk file</p></li>
+<li><p><strong>resultVarNames</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – result variable names</p></li>
+<li><p><strong>resultData</strong> (<cite>numpy.ndarray</cite>) – 2D array containing result data</p></li>
+<li><p><strong>bNodal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether the data is nodal (True) or at cell center (False)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.outputXMDFDataToVTK">
+<code class="sig-name descname"><span class="pre">outputXMDFDataToVTK</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bNodal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeStep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lastTimeStep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.outputXMDFDataToVTK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output XMDF result data to VTK</p>
+<p>This has to be called after the XMDF data have been loaded by calling readSRHXMDFFile(…).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bNodal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether export nodal data or cell center data. Currently, it can’t output both.</p></li>
+<li><p><strong>timeStep</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – optionly only the specified time step will be saved</p></li>
+<li><p><strong>lastTimeStep</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – optionally specify only the last time step</p></li>
+<li><p><strong>dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – directory to write to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>vtkFileNameList</strong> – a list of vtkFileName (for each time step)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.output_2d_mesh_to_vtk">
+<code class="sig-name descname"><span class="pre">output_2d_mesh_to_vtk</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flatMeshVTKFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bFlat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.output_2d_mesh_to_vtk" title="Permalink to this definition">¶</a></dt>
+<dd><p>output the flat mesh to vtk</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flatMeshVTKFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – file name for the flat mesh</p></li>
+<li><p><strong>bFlat</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether to make the 2d mesh flat (node’s z coordinate -&gt; 0)</p></li>
+<li><p><strong>dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – directory to write to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.output_boundary_manning_n_profile">
+<code class="sig-name descname"><span class="pre">output_boundary_manning_n_profile</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodeStringID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodeStringFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.output_boundary_manning_n_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output Manning’s n profile for a specified boundary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodeStringID</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – nodeString ID of specified boundary</p></li>
+<li><p><strong>nodeStringFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of output file</p></li>
+<li><p><strong>dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – directory for the output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.readSRHFile">
+<code class="sig-name descname"><span class="pre">readSRHFile</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srhFileName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.readSRHFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read SRH-2D result file in SRHC (cell center) or SRH (point) format.</p>
+<p>Note: SRH-2D outputs an extra “,” to each line. As a result, Numpy’s
+genfromtext(…) function adds a column of “nan” to the end. Need to take care of this.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>srhFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – file name for the SRH result file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.readSRHXMDFFile">
+<code class="sig-name descname"><span class="pre">readSRHXMDFFile</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xmdfFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bNodal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.readSRHXMDFFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read SRH-2D result file in XMDF format (current version 13.1.6 of SMS only support data at node).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xmdfFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – file name for the XMDF data</p></li>
+<li><p><strong>bNodal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether it is nodal (True) or at cell center (False)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.readTECFile">
+<code class="sig-name descname"><span class="pre">readTECFile</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tecFileName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.readTECFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read SRH-2D results in Tecplot format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tecFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Tecplot file name</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Data.vertex_to_cell_center">
+<code class="sig-name descname"><span class="pre">vertex_to_cell_center</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertex_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Data.vertex_to_cell_center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate result from vertex to cell center</p>
+<p>Not implemented yet.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">SRH_2D_Model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">srh_pre_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">srh_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_dll_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faceless</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>SRH-2D Model which can control simulation runs.</p>
+<p>SRH_2D_Model controls the run of SRH-2D. A case can be loaded and executed. Currently
+SRH_2D_Model has very limited capability to modify geometry, mesh, and flow data. One
+of the main use scenarios is for calibration or Monte Carlo simulations.</p>
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model._faceless">
+<code class="sig-name descname"><span class="pre">_faceless</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model._faceless" title="Permalink to this definition">¶</a></dt>
+<dd><p>bool
+whether show the SRH-2D window when it is running</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model._srh_path">
+<code class="sig-name descname"><span class="pre">_srh_path</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model._srh_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>str
+path to the SRH_2D program (e.g., srh_2d.exe depending on the version)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model._srh_pre_path">
+<code class="sig-name descname"><span class="pre">_srh_pre_path</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model._srh_pre_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>str
+path to the SRH_2D preprocessing program (e.g., srh_2d_pre.exe depending on the version)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model._extra_dll_path">
+<code class="sig-name descname"><span class="pre">_extra_dll_path</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model._extra_dll_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>str
+path for library Dlls, such as XMDL, zlib, hdf5, and msvcr used by SRH-2D.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model._srh_2d_data">
+<code class="sig-name descname"><span class="pre">_srh_2d_data</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model._srh_2d_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>SRH_2D_Data
+a SRH_2D_Data object to hold the simulation case data.</p>
+</dd></dl>
+
+<p>SRH_2D_Model constructor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – version number of SRH-2D</p></li>
+<li><p><strong>srh_pre_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to the SRH_2D preprocessing program (e.g., srh_2d_pre.exe depending on the version)</p></li>
+<li><p><strong>srh_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to the SRH_2D program (e.g., srh_2d.exe depending on the version)</p></li>
+<li><p><strong>extra_dll_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path for library Dlls, such as XMDL, zlib, hdf5, and msvcr used by SRH-2D</p></li>
+<li><p><strong>faceless</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – whether show the SRH-2D window when it is running</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model.close_project">
+<code class="sig-name descname"><span class="pre">close_project</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model.close_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the opened SRH-2D project (if any)</p>
+<p>It will set _srh_2d_data to None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model.exit_model">
+<code class="sig-name descname"><span class="pre">exit_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model.exit_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit the model (SRH-2D specific)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model.get_simulation_case">
+<code class="sig-name descname"><span class="pre">get_simulation_case</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model.get_simulation_case" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the simulation case to srh_2D_data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>srh_2d_data</strong> – an object from class SRH_2D_Data, which should be created before calling</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyHMT2D.SRH_2D.SRH_2D_Data" title="pyHMT2D.SRH_2D.SRH_2D_Data">SRH_2D_Data</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model.init_model">
+<code class="sig-name descname"><span class="pre">init_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model.init_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize SRH-2D model</p>
+<p>It will check the existance of SRH-2D executable files and add extra DLL path
+to the system PATH environment.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model.open_project">
+<code class="sig-name descname"><span class="pre">open_project</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srhhydro_filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model.open_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a SRH-2D project with the specified srhhydro file</p>
+<p>A SRH_2D_Data object will be created to hold the project information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>srhhydro_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the srhhydro file (which contains srhgeom_filename and srhmat_filename)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model.run_model">
+<code class="sig-name descname"><span class="pre">run_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model.run_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the SRH-2D model</p>
+<p>It will run the current SRH-2D project (case) and show a progress bar. The case
+has to be created before with open_project(…) or set_simulation_case().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model.run_pre_model">
+<code class="sig-name descname"><span class="pre">run_pre_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model.run_pre_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run SRH-2D Pre to preprocess the simulation case</p>
+<p>Run SRH-2D’s preprocessing step for current case.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_Model.set_simulation_case">
+<code class="sig-name descname"><span class="pre">set_simulation_case</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srh_2d_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_Model.set_simulation_case" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the simulation case to srh_2D_data (if it has been created already)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>srh_2d_data</strong> (<a class="reference internal" href="#pyHMT2D.SRH_2D.SRH_2D_Data" title="pyHMT2D.SRH_2D.SRH_2D_Data"><em>SRH_2D_Data</em></a>) – an object from class SRH_2D_Data, which should be created before calling</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHGeom">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">SRH_2D_SRHGeom</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srhgeom_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bcDict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHGeom" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to handle srhgeom file for SRH-2D</p>
+<p class="rubric">Notes</p>
+<ol class="arabic">
+<li><p>In SMS (SRH-2D), monitoring lines (ML) and monitoring points (MP) are treated seperately and differently.
+ML is created in the same way as boundary lines. Nodes closest to the line are recorded as a NodeString
+in SRHGEOM file. MP is created as a feature point and its coordiantes are recorded in the “srhmpoint” file.
+Interpolation is done to probe the results at MPs.</p>
+<p>This potentially have some drawbacks:</p>
+<ol class="loweralpha simple">
+<li><p>The MLs and MPs have to be defined before the simulation is run, not afterwards. One can use plot over a
+line or point, but it is not convenient and it is limited. For example, to calculate flow over a line,
+one has to cut a line and then integrate.</p></li>
+<li><p>The way MLs are defined if slightly limited by the mesh (node locations). To be exactly at a ML, one has
+to interpolate the simulated solution to the points on MLs.</p></li>
+</ol>
+</li>
+<li><p>Becasue BC and ML are mixed together, we need to separate them. However, this can only be done with the BC
+information in the srhhydro file. That is why we need to pass in bcDict in the constructor.</p></li>
+</ol>
+<p>Constructor for SRH_2D_SRHGeom</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>srhgeom_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Name of the SRHGeom file</p></li>
+<li><p><strong>bcDict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – Boundary condtion dictionary</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHGeom.buildEdgesAndBoundaryEdges">
+<code class="sig-name descname"><span class="pre">buildEdgesAndBoundaryEdges</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHGeom.buildEdgesAndBoundaryEdges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build edges and boundaryEdges dictionaries</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHGeom.buildNodeElements">
+<code class="sig-name descname"><span class="pre">buildNodeElements</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHGeom.buildNodeElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build node’s element list for all nodes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHGeom.extrude_to_3D">
+<code class="sig-name descname"><span class="pre">extrude_to_3D</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layerHeights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mshFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bTerrainFollowing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHGeom.extrude_to_3D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extrude the 2D mesh to 3D with layers</p>
+<p>When extruded: node -&gt; line, edge -&gt; face, 2D element-&gt; volume, boundary line -&gt; boundary face</p>
+<p>The extruded mesh is written to a GMSH MSH file. Tried MSH version 4. But it seems
+too complicated (entities etc.). They are not necessary for our purpose.
+Therefore, we will stick with version 2 and OpenFOAM takes this version well.</p>
+<p>Ref: <a class="reference external" href="https://gmsh.info/doc/texinfo/gmsh.html#MSH-file-format-version-2-_0028Legacy_0029">https://gmsh.info/doc/texinfo/gmsh.html#MSH-file-format-version-2-_0028Legacy_0029</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layerHeights</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – a list with strictly increasing heights for the layers. If bTerrainFollowing
+is True, only the last value is used as the top elevation.</p></li>
+<li><p><strong>mshFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the GMSH MSH file to be written</p></li>
+<li><p><strong>bTerrainFollowing</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether to follow the terrain. If False, the bottom will be at z = 0, and the layer heights
+are specified in layerHeights. If True, the bottom will key the terrain elevation, the top
+will be at layerHeights[-1] and interpolation inbetween.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHGeom.getNumOfElementsNodes">
+<code class="sig-name descname"><span class="pre">getNumOfElementsNodes</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHGeom.getNumOfElementsNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of elements and nodes in srhgeom mesh file</p>
+<p>Returns</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHGeom.output_2d_mesh_to_vtk">
+<code class="sig-name descname"><span class="pre">output_2d_mesh_to_vtk</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flatMeshVTKFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bFlat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHGeom.output_2d_mesh_to_vtk" title="Permalink to this definition">¶</a></dt>
+<dd><p>output the 2D mesh to vtk</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flatMeshVTKFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – VTK file name for the flat mesh</p></li>
+<li><p><strong>bFlat</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – whether to make a flat mesh (z=0)</p></li>
+<li><p><strong>dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – directory to write the VTK file to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHGeom.output_as_gmsh">
+<code class="sig-name descname"><span class="pre">output_as_gmsh</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gmshFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHGeom.output_as_gmsh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output SRH-2D mesh in GMESH format</p>
+<p>Not implemented yet.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gmshFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – GMSH MSH file name to write to</p></li>
+<li><p><strong>dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – directory name to write to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHGeom.output_nodeString_line_coordinates">
+<code class="sig-name descname"><span class="pre">output_nodeString_line_coordinates</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodeStringID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodeStringFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHGeom.output_nodeString_line_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output the nodeString line coordinates into a text file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodeStringID</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the ID of the nodeString to be written out</p></li>
+<li><p><strong>nodeStringFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the name of the file to be written to</p></li>
+<li><p><strong>dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – directory to write the output file to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHGeom.readSRHGEOMFile">
+<code class="sig-name descname"><span class="pre">readSRHGEOMFile</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHGeom.readSRHGEOMFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get mesh information by reading the srhgeom file</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHHydro">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">SRH_2D_SRHHydro</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srhhydro_filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to handle srhhydro file for SRH-2D</p>
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHHydro.srhhydro_filename">
+<code class="sig-name descname"><span class="pre">srhhydro_filename</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro.srhhydro_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>name for the srhhydro file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHHydro.srhhydro_content">
+<code class="sig-name descname"><span class="pre">srhhydro_content</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro.srhhydro_content" title="Permalink to this definition">¶</a></dt>
+<dd><p>a dictionary to hold all information in the srhhydro file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Methods</p>
+<p>Constructor for SRH_2D_SRHHydro</p>
+<p>The SRH_2D_SRHHydro file contains all information for a SRH-2D run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>srhhydro_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the SRHHydro file</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHHydro.get_grid_file_name">
+<code class="sig-name descname"><span class="pre">get_grid_file_name</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro.get_grid_file_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get grid file name (shoudl be like “xxx.srhgeom”)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>value</strong> – Name of the grid file</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHHydro.get_mat_file_name">
+<code class="sig-name descname"><span class="pre">get_mat_file_name</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro.get_mat_file_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get material file name (shoudl be like “xxx.srhmat”)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>value</strong> – Name of the material file</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHHydro.get_simulation_start_end_time">
+<code class="sig-name descname"><span class="pre">get_simulation_start_end_time</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro.get_simulation_start_end_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the start and end time of simulation (in hours, from the “SimTime” entry)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>startTime</strong> (<em>float</em>) – start time in hours</p></li>
+<li><p><strong>endTime</strong> (<em>float</em>) – end time in hours</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHHydro.get_simulation_time_step_size">
+<code class="sig-name descname"><span class="pre">get_simulation_time_step_size</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro.get_simulation_time_step_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the time step size of simulation (in seconds, from the “SimTime” entry)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>deltaT</strong> – time step size in seconds</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHHydro.modify_ManningsN">
+<code class="sig-name descname"><span class="pre">modify_ManningsN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">materialIDs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newManningsNValues</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ManningN_MaterialNames</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro.modify_ManningsN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify materialID’s Manning’s n value to new value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>materialIDs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – material ID list</p></li>
+<li><p><strong>newManningsNValues</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – new Manning’s n value list</p></li>
+<li><p><strong>ManningN_MaterialNames</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – name of materials list</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHHydro.parse_srhhydro_file">
+<code class="sig-name descname"><span class="pre">parse_srhhydro_file</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro.parse_srhhydro_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the SRHHydro file</p>
+<p>It will read the SRHHydro file and build the dictionary self.srhhydro_content</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHHydro.write_to_file">
+<code class="sig-name descname"><span class="pre">write_to_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_srhhydro_file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHHydro.write_to_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write to a SRHHydro file (useful for modification of the SRHHydro file)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_srhhydro_file_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the new srhhydro file</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHMat">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">SRH_2D_SRHMat</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srhmat_filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHMat" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to handle srhmat file for SRH-2D</p>
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHMat.srhmat_filename">
+<code class="sig-name descname"><span class="pre">srhmat_filename</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHMat.srhmat_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of the srhmat file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHMat.numOfMaterials">
+<code class="sig-name descname"><span class="pre">numOfMaterials</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHMat.numOfMaterials" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of materials defined in the srhmat file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHMat.matZoneCells">
+<code class="sig-name descname"><span class="pre">matZoneCells</span></code><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHMat.matZoneCells" title="Permalink to this definition">¶</a></dt>
+<dd><p>each material zone’s cell list (in a dictionary: material zone ID and cell list)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Methods</p>
+<p>SRH_2D_SRHMat constructor from a srhmat file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>srhmat_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the srhmat file</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHMat.buildMaterialZonesData">
+<code class="sig-name descname"><span class="pre">buildMaterialZonesData</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHMat.buildMaterialZonesData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the data for material zones from reading the srhmat file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.SRH_2D.SRH_2D_SRHMat.find_cell_material_ID">
+<code class="sig-name descname"><span class="pre">find_cell_material_ID</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cellID</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.SRH_2D.SRH_2D_SRHMat.find_cell_material_ID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a cell ID, find its material (Manning’s n) ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cellID</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – cell ID to find material ID for</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="hec-ras-related-classes-and-tools">
+<h2>HEC-RAS related classes and tools<a class="headerlink" href="#hec-ras-related-classes-and-tools" title="Permalink to this headline">¶</a></h2>
+<p>Package summary for RAS-2D:</p>
+<span class="target" id="module-pyHMT2D.RAS_2D"></span><dl class="py class">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">HEC_RAS_Model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faceless</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>HEC-RAS Model class</p>
+<p>HEC-RAS Model controls the run of HEC-RAS. A plan can be loaded and executed.
+Currently HEC_RAS_Model has very limited capability to modify HEC-RAS project,
+plan, geometry, and flow data. It is mainly used for calibration and Monte
+Carlo simulations.</p>
+<dl class="py attribute">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model._faceless">
+<code class="sig-name descname"><span class="pre">_faceless</span></code><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model._faceless" title="Permalink to this definition">¶</a></dt>
+<dd><p>bool
+whether show the HEC-RAS GUI</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model._ras_path">
+<code class="sig-name descname"><span class="pre">_ras_path</span></code><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model._ras_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>str
+path to the HEC-RAS program (Ras.exe)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model._RASController">
+<code class="sig-name descname"><span class="pre">_RASController</span></code><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model._RASController" title="Permalink to this definition">¶</a></dt>
+<dd><p>object
+RASController</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model._project_file_name">
+<code class="sig-name descname"><span class="pre">_project_file_name</span></code><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model._project_file_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>str
+HEC-RAS project name (including the full path)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model._project">
+<code class="sig-name descname"><span class="pre">_project</span></code><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model._project" title="Permalink to this definition">¶</a></dt>
+<dd><p>HEC_RAS_Project
+HEC_RAS_Project object corresponding to current project</p>
+</dd></dl>
+
+<p>HEC_RAS_Model constructor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – HEC-RAS version</p></li>
+<li><p><strong>faceless</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – whether to run HEC-RAS without GUI</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model.close_project">
+<code class="sig-name descname"><span class="pre">close_project</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model.close_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the current project (if any)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model.exit_model">
+<code class="sig-name descname"><span class="pre">exit_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model.exit_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit the model (HEC-RAS specific)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model.get_current_project">
+<code class="sig-name descname"><span class="pre">get_current_project</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model.get_current_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current opened project</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model.get_plan_names">
+<code class="sig-name descname"><span class="pre">get_plan_names</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">IncludeOnlyPlansInBaseDirectory</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model.get_plan_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the list of plan names in the current project</p>
+<p>Based on this COM object function:
+Plan_Names(self, PlanCount=defaultNamedNotOptArg, PlanNames=defaultNamedNotOptArg,
+IncludeOnlyPlansInBaseDirectory=defaultNamedNotOptArg)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>IncludeOnlyPlansInBaseDirectory</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether only include plans in the base directory</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>PlanCount</strong> (<em>int</em>) – number of plans in the current project</p></li>
+<li><p><strong>PlanNames</strong> (<em>list</em>) – a list of plan names in the current project</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model.get_simulation_case">
+<code class="sig-name descname"><span class="pre">get_simulation_case</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model.get_simulation_case" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the simulation case to RAS_2D_data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>ras_2d_data</strong> – an object from class RAS_2D_Data, which should be created before calling</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyHMT2D.RAS_2D.RAS_2D_Data" title="pyHMT2D.RAS_2D.RAS_2D_Data">RAS_2D_Data</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model.init_model">
+<code class="sig-name descname"><span class="pre">init_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model.init_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a HEC-RAS instance</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model.open_project">
+<code class="sig-name descname"><span class="pre">open_project</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projectFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terrainFileName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model.open_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>open the specified HEC-RAS project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projectFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – project file name including the path</p></li>
+<li><p><strong>terrainFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – file name for the terrain (not necessarily the terrain used by HEC-RAS for the project). This
+terrain file (in GeoTiff format) is used to interpolate the elevation at face points (which HEC-RAS
+does not export to result HDF files). This GeoTiff terrain file can be converted from the terrain used
+in the HEC-RAS project. (TODO: convert in this function internally without user input).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>currentPlanFile</strong> (<em>str</em>) – name of current plan file</p></li>
+<li><p><strong>currentPlanName</strong> (<em>str</em>) – name of current plan</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model.run_model">
+<code class="sig-name descname"><span class="pre">run_model</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model.run_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the HEC-RAS model</p>
+<p>A project and a plan have to be defined and selected before the run.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.HEC_RAS_Model.save_project">
+<code class="sig-name descname"><span class="pre">save_project</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.HEC_RAS_Model.save_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the current project</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">RAS_2D_Data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdf_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terrain_filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class for HEC-RAS 2D data I/O, manipulation, and format conversion</p>
+<p>This class is designed to read HEC-RAS results in HDF format. It can
+save RAS2D results into VTK format for visualization in Paraview, parse
+RAS2D mesh information and convert/save to SRH-2D format, query RAS2D
+results (e.g., for calibration), etc.</p>
+<dl class="py attribute">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.hdf_filename">
+<code class="sig-name descname"><span class="pre">hdf_filename</span></code><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.hdf_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>the name for the HDF result file generated by HEC-RAS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.plan_filename">
+<code class="sig-name descname"><span class="pre">plan_filename</span></code><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.plan_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>the name for the HEC-RAS run plan file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.plan">
+<code class="sig-name descname"><span class="pre">plan</span></code><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.plan" title="Permalink to this definition">¶</a></dt>
+<dd><p>the name of the HEC-RAS run plan</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.short_identifier">
+<code class="sig-name descname"><span class="pre">short_identifier</span></code><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.short_identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>the short name of the run, called “Short Identifier” in HEC-RAS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>RAS_2D_Data class constructor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hdf_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the HDF file that contains HEC-RAS results</p></li>
+<li><p><strong>terrain_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the terrain file (HEC-RAS’s result HDF file does not have
+elevation in point coordinates (up to v6; may change in future).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.build2DAreaBoundaries">
+<code class="sig-name descname"><span class="pre">build2DAreaBoundaries</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.build2DAreaBoundaries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build boundaries with their point list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.build2DAreaCellFaceList">
+<code class="sig-name descname"><span class="pre">build2DAreaCellFaceList</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.build2DAreaCellFaceList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build cell’s face list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.build2DAreaFaceHydraulicInformation">
+<code class="sig-name descname"><span class="pre">build2DAreaFaceHydraulicInformation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.build2DAreaFaceHydraulicInformation" title="Permalink to this definition">¶</a></dt>
+<dd><p>For 2D flow area, build face hydraulic information table (face area elevation)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.build2DAreaFacePointCoordinatesList">
+<code class="sig-name descname"><span class="pre">build2DAreaFacePointCoordinatesList</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.build2DAreaFacePointCoordinatesList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build face point coordinates list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.build2DAreaFaceProfile">
+<code class="sig-name descname"><span class="pre">build2DAreaFaceProfile</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.build2DAreaFaceProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build face profile</p>
+<p>Face profile in HEC-RAS represents the sub-grid terrain.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.build2DInterpolatorFromGeoTiff">
+<code class="sig-name descname"><span class="pre">build2DInterpolatorFromGeoTiff</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geoTiffFileName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.build2DInterpolatorFromGeoTiff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build 2D interpolator for from geoTiff file, e.g., terrain and Manning n ID, using Python interpolate.interp2d</p>
+<p>Assume the data is in band 1.</p>
+<p>This method is too slow (use with caution if the case is large).</p>
+<dl class="py attribute">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.geoTiffFileName">
+<code class="sig-name descname"><span class="pre">geoTiffFileName</span></code><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.geoTiffFileName" title="Permalink to this definition">¶</a></dt>
+<dd><p>name for the geoTiff file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.build2DManningNZones">
+<code class="sig-name descname"><span class="pre">build2DManningNZones</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.build2DManningNZones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build 2D flow area’s Manning n zones from the land cover (Manning’s n) HDF file</p>
+<p>Assume that there is “Land Cover Filename” and “Land Cover Layername” in the result HDF file.
+If they don’t exist (mostly for the case that the whole domain uses the default, constant
+Manning’s n value in [“Geometry”][“2D Flow Areas”][0][1]), just use that constant.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.buildCellManningNFromGeoTiffHDF">
+<code class="sig-name descname"><span class="pre">buildCellManningNFromGeoTiffHDF</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.buildCellManningNFromGeoTiffHDF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build 2D flow area cell’s Manning n value from HEC-RAS’s GeoTiff and HDF files for Manning n.</p>
+<p>This method is more accurate than interpolateManningN_face_to_cell(), which uses a face to cell interpolation.</p>
+<p>Also need to consider the case where the “Land Cover Filename” is empty and the whole domain uses the
+default constant Manning’s n.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.buildFace_FacePoints">
+<code class="sig-name descname"><span class="pre">buildFace_FacePoints</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.buildFace_FacePoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build face’s facepoint list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.dump_all_data">
+<code class="sig-name descname"><span class="pre">dump_all_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.dump_all_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump all data to screen (for debugging purpose)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.exportBoundariesToVTK">
+<code class="sig-name descname"><span class="pre">exportBoundariesToVTK</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boundaryVTKFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twoDAreaNumber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.exportBoundariesToVTK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export boundaries of 2D area to VTK (for visual inspection in Paraview and check the ID of NodeString)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>boundaryVTKFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the VTK file for output</p></li>
+<li><p><strong>twoDAreaNumber</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – 2D flow area number (default is 0)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.exportFaceProfilesToVTK">
+<code class="sig-name descname"><span class="pre">exportFaceProfilesToVTK</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">faceProfileVTKFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twoDAreaNumber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.exportFaceProfilesToVTK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export face profile of 2D area to VTK (for visual inspection in Paraview)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>faceProfileVTKFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of VTK file to write to</p></li>
+<li><p><strong>dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – directory to write to</p></li>
+<li><p><strong>twoDAreaNumber</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – 2D flow area number (default is 0)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.exportSRHGEOMFile">
+<code class="sig-name descname"><span class="pre">exportSRHGEOMFile</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srhgeomFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twoDAreaNumber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.exportSRHGEOMFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export srhgeom file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>srhgeomFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the srhgeom file</p></li>
+<li><p><strong>twoDAreaNumber</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – 2D flow area number (default = 0)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.exportSRHMATFile">
+<code class="sig-name descname"><span class="pre">exportSRHMATFile</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srhmatFileName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.exportSRHMATFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export the SRHMAT file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>srhmatFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the srhmat file to write to</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaBoundaryNamesTypes">
+<code class="sig-name descname"><span class="pre">get2DAreaBoundaryNamesTypes</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaBoundaryNamesTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D Flow Area boundary names, which 2D area it belongs to, type (External or Internal), and Length</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>hdf2DAreaBoundaryNamesTypes</strong> – the content of the “Attributes” table in HDF, which includes “Name”, “SA-2D”, “Type”, and “Length”</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaBoundaryPoints">
+<code class="sig-name descname"><span class="pre">get2DAreaBoundaryPoints</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaBoundaryPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D Flow Area boundary points (all points on boundaries)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>hdf2DAreaBoundaryPoints</strong> – the content of the “External Faces” table in HDF, which
+include “BC Line ID”, “Face Index”, “FP Start Index”, “FP End Index”, “Station Start”, and “Station End”</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellCenterCoordiantes">
+<code class="sig-name descname"><span class="pre">get2DAreaCellCenterCoordiantes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellCenterCoordiantes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D Flow Area cell center coordinates for a specified 2D area</p>
+<p>Note: these coordinates only have (x,y), no z.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>area</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of area</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellCounts">
+<code class="sig-name descname"><span class="pre">get2DAreaCellCounts</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellCounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D Flow Areas cell counts</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellFacePointsIndexes">
+<code class="sig-name descname"><span class="pre">get2DAreaCellFacePointsIndexes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellFacePointsIndexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D Flow Area cell face points indexes for a specified 2D area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>area</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the area</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellPoints">
+<code class="sig-name descname"><span class="pre">get2DAreaCellPoints</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D Flow Area cell points</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellsFaceOrientationInfo">
+<code class="sig-name descname"><span class="pre">get2DAreaCellsFaceOrientationInfo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellsFaceOrientationInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get cells face and orientation info for a specified 2D area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>area</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of area</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellsFaceOrientationValues">
+<code class="sig-name descname"><span class="pre">get2DAreaCellsFaceOrientationValues</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaCellsFaceOrientationValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get cells face and orientation values for a specified 2D area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>area</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of area</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaFaceAreaElevationInfo">
+<code class="sig-name descname"><span class="pre">get2DAreaFaceAreaElevationInfo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaFaceAreaElevationInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get faces area elevation info for a specified 2D area</p>
+<p>Two columns: first column-starting index, second column-length of record</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>area</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of area</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaFaceAreaElevationValues">
+<code class="sig-name descname"><span class="pre">get2DAreaFaceAreaElevationValues</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaFaceAreaElevationValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get faces area elevation values for a specified 2D area</p>
+<dl class="simple">
+<dt>Four columns: first column-elevation, second column-area</dt><dd><p>third column-wetted perimeter, fourth column-Manning’s n (a constant as of now RAS version &lt;=6)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>area</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of area</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaFaceFacePointIndexes">
+<code class="sig-name descname"><span class="pre">get2DAreaFaceFacePointIndexes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaFaceFacePointIndexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get face’s facepoint indexes (two interger IDs)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>area</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of area</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaFacePointsCoordinates">
+<code class="sig-name descname"><span class="pre">get2DAreaFacePointsCoordinates</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaFacePointsCoordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the face points’ coordinates for a specified 2D area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>area</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of area</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaNames">
+<code class="sig-name descname"><span class="pre">get2DAreaNames</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of 2D Flow Areas in the HEC-RAS Plan’s geometry</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaSolutionTimeDates">
+<code class="sig-name descname"><span class="pre">get2DAreaSolutionTimeDates</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaSolutionTimeDates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D Flow Area solution time_dates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>hdf2DAreaSolutionTimeDates</strong> – list of solution time and dates</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaSolutionTimes">
+<code class="sig-name descname"><span class="pre">get2DAreaSolutionTimes</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get2DAreaSolutionTimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D Flow Area solution times</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>hdf2DAreaSolutionTimes</strong> – list of solution times</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get_intervals">
+<code class="sig-name descname"><span class="pre">get_intervals</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the computation, output, and map intervals</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get_shortID">
+<code class="sig-name descname"><span class="pre">get_shortID</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get_shortID" title="Permalink to this definition">¶</a></dt>
+<dd><p>“Find the short_ID</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get_start_end_time">
+<code class="sig-name descname"><span class="pre">get_start_end_time</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get_start_end_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the plan_filename and the start_time and end_time</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get_time_minutes">
+<code class="sig-name descname"><span class="pre">get_time_minutes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get_time_minutes" title="Permalink to this definition">¶</a></dt>
+<dd><p>pass the interval to this function to get the minute value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – internal in string format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.get_units">
+<code class="sig-name descname"><span class="pre">get_units</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.get_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the units used in the HEC-RAS project</p>
+<p>Units used in HEC-RAS can be either ‘Feet’ or ‘Meter’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.hdf2DAreaResultVar">
+<code class="sig-name descname"><span class="pre">hdf2DAreaResultVar</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.hdf2DAreaResultVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get HEC-RAS solution time series result for a given variable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of area</p></li>
+<li><p><strong>varName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – variable name</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.interpolateManningN_face_to_cell">
+<code class="sig-name descname"><span class="pre">interpolateManningN_face_to_cell</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.interpolateManningN_face_to_cell" title="Permalink to this definition">¶</a></dt>
+<dd><p>interpolate Manning’s n from face to cell center</p>
+<p>HEC-RAS 2D stores Manning’s n value at faces, not cell centers. We need to
+interpolate its value from face to cell center. Another option is to use the
+cell center coordinates and direclty query the Manning’s n layer in RAS Mapper, which
+might be too complicated because HEC-RAS has default Manning’s n, Land Use Cover, Override polygon, etc.
+Here, the interpolation from face to cell might not be a bad choice.</p>
+<p>For each face, HEC-RAS currently does not support varying Manning’s n (horizontally and veritcally). Thus,
+effectively, it is a constant value for each face. This may change in the future.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.interpolateZcoord2Points">
+<code class="sig-name descname"><span class="pre">interpolateZcoord2Points</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">facePointsCoordinates3D</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.interpolateZcoord2Points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate the elevation (bathymetry) to 2D area’s points (z-coordinate)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>facePointsCoordinates3D</strong> (<em>numpy.ndarray</em>) – face points coordinates in 3D</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.interpolatorFromGeoTiff">
+<code class="sig-name descname"><span class="pre">interpolatorFromGeoTiff</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">geoTiffFileName</span></em>, <em class="sig-param"><span class="pre">pointList</span></em>, <em class="sig-param"><span class="pre">dataType=&lt;class</span> <span class="pre">'float'&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.interpolatorFromGeoTiff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate from a GeoTiff file given a point list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geoTiffFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the GeoTiff file</p></li>
+<li><p><strong>pointList</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – list of points (x,y)</p></li>
+<li><p><strong>dataType</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – data type in the GeoTiff (default is numpy.float)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.load2DAreaSolutions">
+<code class="sig-name descname"><span class="pre">load2DAreaSolutions</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.load2DAreaSolutions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load solutions (cell depth and water surface elevation, node X and Y vel.) for all 2D areas</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.modify_ManningsN">
+<code class="sig-name descname"><span class="pre">modify_ManningsN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">materialIDs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newManningsNValues</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">materialNames</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.modify_ManningsN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify materialID’s Manning’s n values to new values</p>
+<p>Assume that there is “Land Cover Filename” and “Land Cover Layername” in the result HDF file.
+If they don’t exist (mostly for the case that the whole domain uses the default, constant
+Manning’s n value in [“Geometry”][“2D Flow Areas”][0][1]), just use newManningsNValues[0].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>materialIDs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – material ID list</p></li>
+<li><p><strong>newManningsNValues</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – new Manning’s n values in a list</p></li>
+<li><p><strong>materialNames</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – names of the material in a list</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.RAS_2D.RAS_2D_Data.saveHEC_RAS2D_results_to_VTK">
+<code class="sig-name descname"><span class="pre">saveHEC_RAS2D_results_to_VTK</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeStep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lastTimeStep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyHMT2D.RAS_2D.RAS_2D_Data.saveHEC_RAS2D_results_to_VTK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save HEC-RAS 2D solutions to VTK files.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Each area saved separately</p></li>
+<li><p>Each time saved separately</p></li>
+</ul>
+</div>
+<p>The resulted files will be RAS2D_areaName_timeSequence.vtk, e.g.,
+RAS2D_SpringCreek_0001.vtk, RAS2D_SpringCreek_0002.vtk, etc.</p>
+<p>The option lastTimeStep specifies whether only the last time step is saved (default=False).
+The option timeStep specifies the particular step to be saved.
+If both lastTimeSTep and timeStep are specified, lastTimeStep has the priority.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timeStep</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – only the specified time step will be saved</p></li>
+<li><p><strong>lastTimeStep</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – specify only the last time step</p></li>
+<li><p><strong>dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – directory name to write to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="miscellaneous-classes-and-tools">
+<h2>Miscellaneous classes and tools<a class="headerlink" href="#miscellaneous-classes-and-tools" title="Permalink to this headline">¶</a></h2>
+<p>Package summary for Misc</p>
+<span class="target" id="module-pyHMT2D.Misc"></span><dl class="py class">
+<dt id="pyHMT2D.Misc.RAS_to_SRH_Converter">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">RAS_to_SRH_Converter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RASPlanResultFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RASTerrainGeoTiffFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SRHCaseName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/RAS_to_SRH_Converter.html#RAS_to_SRH_Converter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.RAS_to_SRH_Converter" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Python class to convert HEC-RAS case, mainly mesh and material (Manning’s n), to SRH-2D case</p>
+<p>Typical work flow is as follows:
+1. create 2D case in HEC-RAS
+2. call RAS to SRH converter: create srhgeom and srhmat files
+3. manually create and adjust srhhydro file
+4. run SRH-2D</p>
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.RAS_to_SRH_Converter.RASPlanResultFileName">
+<code class="sig-name descname"><span class="pre">RASPlanResultFileName</span></code><a class="headerlink" href="#pyHMT2D.Misc.RAS_to_SRH_Converter.RASPlanResultFileName" title="Permalink to this definition">¶</a></dt>
+<dd><p>HEC-RAS result from a plan, such as caseName.p01.hdf</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.RAS_to_SRH_Converter.RASTerrainGeoTiffFileName">
+<code class="sig-name descname"><span class="pre">RASTerrainGeoTiffFileName</span></code><a class="headerlink" href="#pyHMT2D.Misc.RAS_to_SRH_Converter.RASTerrainGeoTiffFileName" title="Permalink to this definition">¶</a></dt>
+<dd><p>HEC-RAS Terrain’s GeoTiff file name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.RAS_to_SRH_Converter.SRHCaseName">
+<code class="sig-name descname"><span class="pre">SRHCaseName</span></code><a class="headerlink" href="#pyHMT2D.Misc.RAS_to_SRH_Converter.SRHCaseName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Case name for SRH-2D; the resulted files will be SRHCaseName.srhgeom, SRHCaseName.srhmat</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Misc.RAS_to_SRH_Converter.convert_to_SRH">
+<code class="sig-name descname"><span class="pre">convert_to_SRH</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/RAS_to_SRH_Converter.html#RAS_to_SRH_Converter.convert_to_SRH"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.RAS_to_SRH_Converter.convert_to_SRH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the case to SRH</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyHMT2D.Misc.Terrain">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Terrain</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/Terrain.html#Terrain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.Terrain" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Python class for terrain data I/O, creation, and manipulation</p>
+<p>Typical work flow is as follows:</p>
+<ol class="arabic simple">
+<li><p>create the Terrain object</p></li>
+<li><p>create the terrain (elevation, pixel_width/height): user can either call
+some pre-defined terrains such as constant slope, or create the terrain by themsleves
+and then call set_terrain(…), and set_pixel_size(…)</p></li>
+<li><p>set the georeferencing by calling set_georeference(…)</p></li>
+<li><p>save the terrain to file by calling save_terrain_to_file(…)</p></li>
+</ol>
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.Terrain.name">
+<code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#pyHMT2D.Misc.Terrain.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of the terrain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.Terrain.elevation">
+<code class="sig-name descname"><span class="pre">elevation</span></code><a class="headerlink" href="#pyHMT2D.Misc.Terrain.elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p>elevation of the terrain (2D numpy array)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.Terrain.geoTopLeft_x">
+<code class="sig-name descname"><span class="pre">geoTopLeft_x</span></code><a class="headerlink" href="#pyHMT2D.Misc.Terrain.geoTopLeft_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>raster’s top-left corner georeferenced x-coordinate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.Terrain.geoTopLeft_y">
+<code class="sig-name descname"><span class="pre">geoTopLeft_y</span></code><a class="headerlink" href="#pyHMT2D.Misc.Terrain.geoTopLeft_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>raster’s top-left corner georeferenced y-coordinate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.Terrain.pixel_width">
+<code class="sig-name descname"><span class="pre">pixel_width</span></code><a class="headerlink" href="#pyHMT2D.Misc.Terrain.pixel_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>pixel width (in x), i.e, each pixel is how many meters/feet wide?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.Terrain.pixel_height">
+<code class="sig-name descname"><span class="pre">pixel_height</span></code><a class="headerlink" href="#pyHMT2D.Misc.Terrain.pixel_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>pixel height (in y), i.e, each pixel is how many meters/feet high?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.Terrain.EPSGCode">
+<code class="sig-name descname"><span class="pre">EPSGCode</span></code><a class="headerlink" href="#pyHMT2D.Misc.Terrain.EPSGCode" title="Permalink to this definition">¶</a></dt>
+<dd><p>EPSG (European Petroleum Survey Group) code that defines the coordinate reference system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.Terrain.geoTransform">
+<code class="sig-name descname"><span class="pre">geoTransform</span></code><a class="headerlink" href="#pyHMT2D.Misc.Terrain.geoTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>affine transform for the raster image from image pixel to real coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyHMT2D.Misc.Terrain.supportedGDALDrivers">
+<code class="sig-name descname"><span class="pre">supportedGDALDrivers</span></code><a class="headerlink" href="#pyHMT2D.Misc.Terrain.supportedGDALDrivers" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of supported GDAL drivers (short names only)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Terrain class constructor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of the terrain</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyHMT2D.Misc.Terrain.build_supported_GDAL_drivers_list">
+<code class="sig-name descname"><span class="pre">build_supported_GDAL_drivers_list</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/Terrain.html#Terrain.build_supported_GDAL_drivers_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.Terrain.build_supported_GDAL_drivers_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the list of supported GDAL drivers list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Misc.Terrain.create_constant_slope_channel_elevation">
+<code class="sig-name descname"><span class="pre">create_constant_slope_channel_elevation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slope</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_lenx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_leny</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/Terrain.html#Terrain.create_constant_slope_channel_elevation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.Terrain.create_constant_slope_channel_elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a constant slope channel elevation</p>
+<p>The slope is in the x direction only. The slope in the y direction is zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>slope</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – slope in x</p></li>
+<li><p><strong>channel_lenx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – channel length in x</p></li>
+<li><p><strong>channel_leny</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – channel length in y</p></li>
+<li><p><strong>elevation_origin</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – the elevation at the origin (top left; does not account for the extra fringe)</p></li>
+<li><p><strong>extra_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – optional extra fringe length added to the channel domain (to
+have some free room in developing 2D models in e.g., SMS or HEC-RAS.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Misc.Terrain.get_elevation">
+<code class="sig-name descname"><span class="pre">get_elevation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/Terrain.html#Terrain.get_elevation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.Terrain.get_elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the elevation array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>elevation</strong> – elevation 2D array</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Misc.Terrain.get_terrain_name">
+<code class="sig-name descname"><span class="pre">get_terrain_name</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/Terrain.html#Terrain.get_terrain_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.Terrain.get_terrain_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the terrain name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>name</strong> – name of the terrain</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Misc.Terrain.save_terrain_to_file">
+<code class="sig-name descname"><span class="pre">save_terrain_to_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">terrainFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geoDriverName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'GTiff'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/Terrain.html#Terrain.save_terrain_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.Terrain.save_terrain_to_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>save terrain to file, such as GeoTiff</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>terrainFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – file name for the saved terrain</p></li>
+<li><p><strong>geoDriverName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – GDAL raster driver names, such as ‘GTiff’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Misc.Terrain.set_elevation">
+<code class="sig-name descname"><span class="pre">set_elevation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/Terrain.html#Terrain.set_elevation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.Terrain.set_elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the elevation array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>elevation</strong> (<em>numpy.ndarray</em>) – elevation 2D array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Misc.Terrain.set_georeference">
+<code class="sig-name descname"><span class="pre">set_georeference</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geoTopLeft_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geoTopLeft_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EPSGCode</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/Terrain.html#Terrain.set_georeference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.Terrain.set_georeference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the georeferencing information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geoTopLeft_x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – raster’s top-left corner georeferenced x location</p></li>
+<li><p><strong>geoTopLeft_y</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – raster’s top-left corner georeferenced y location</p></li>
+<li><p><strong>EPSGCode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – EPSG (European Petroleum Survey Group) code that defines the coordinate reference system</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyHMT2D.Misc.Terrain.set_pixel_size">
+<code class="sig-name descname"><span class="pre">set_pixel_size</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyHMT2D/Misc/Terrain.html#Terrain.set_pixel_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyHMT2D.Misc.Terrain.set_pixel_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the pixel size in x and y directions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pixel_width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – the width of each pixel in real world</p></li>
+<li><p><strong>pixel_height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – the height of each pixel in real world</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="README.html" class="btn btn-neutral float-left" title="pyHMT2D - Python Hydraulic Modeling Tools - 2D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020-2021, Xiaofeng Liu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
