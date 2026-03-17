@@ -1,176 +1,108 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>pyHMT2D.Misc.Terrain &mdash; pyHMT2D 1.0.0 documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=74cb3bac" />
 
   
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+      <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../contents.html" class="icon icon-home"> pyHMT2D
           
-
-          
+          <a href="../../../contents.html">
+            
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../README.html"><em>pyHMT2D</em> - Python Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html"><em>pyHMT2D</em> - Python-based Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#supported-platform">Supported Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#motivations">Motivations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#features">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#example-usage-see-the-aoeexamplesa-directory-for-more-details">Example Usage (see the â€œexamplesâ€ directory for more details)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#limitations">Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#api-documentation">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#acknowledgements-and-references">Acknowledgements and References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#author">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#contributors-and-contributor-agreement">Contributors and Contributor Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#how-to-cite-pyhmt2d">How to cite <em>pyHMT2D</em></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pyHMT2D_API.html">pyHMT2D API</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../contents.html">pyHMT2D</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../../contents.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-        
-      <li>pyHMT2D.Misc.Terrain</li>
-    
-    
+      <li><a href="../../../contents.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyHMT2D.Misc.Terrain</li>
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for pyHMT2D.Misc.Terrain</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">A Python class for terrain data I/O, creation, and manipulation</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
-<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
-<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">osr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
-<span class="kn">from</span> <span class="nn">pyHMT2D.Hydraulic_Models_Data</span> <span class="kn">import</span> <span class="n">HydraulicData</span>
+<span class="c1">#from osgeo import gdal</span>
+<span class="c1">#from osgeo import osr</span>
 
-<div class="viewcode-block" id="Terrain"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain">[docs]</a><span class="k">class</span> <span class="nc">Terrain</span><span class="p">(</span><span class="n">HydraulicData</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A Python class for terrain data I/O, creation, and manipulation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.Hydraulic_Models_Data</span><span class="w"> </span><span class="kn">import</span> <span class="n">HydraulicData</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+<div class="viewcode-block" id="Terrain">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Terrain</span><span class="p">(</span><span class="n">HydraulicData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Python class for terrain data I/O, creation, and manipulation</span>
 
 <span class="sd">    Typical work flow is as follows:</span>
 
@@ -204,8 +136,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Terrain class constructor</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Terrain class constructor</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -213,6 +145,9 @@
 <span class="sd">            name of the terrain</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#from osgeo import gdal</span>
+        <span class="c1">#from osgeo import osr</span>
 
         <span class="n">HydraulicData</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Terrain&quot;</span><span class="p">)</span>
 
@@ -233,8 +168,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">build_supported_GDAL_drivers_list</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="Terrain.get_terrain_name"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.get_terrain_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_terrain_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get the terrain name</span>
+<div class="viewcode-block" id="Terrain.get_terrain_name">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.get_terrain_name">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_terrain_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the terrain name</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -245,8 +182,11 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 
-<div class="viewcode-block" id="Terrain.get_elevation"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.get_elevation">[docs]</a>    <span class="k">def</span> <span class="nf">get_elevation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get the elevation array</span>
+
+<div class="viewcode-block" id="Terrain.get_elevation">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.get_elevation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_elevation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the elevation array</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -256,8 +196,11 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span></div>
 
-<div class="viewcode-block" id="Terrain.set_elevation"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.set_elevation">[docs]</a>    <span class="k">def</span> <span class="nf">set_elevation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elevation</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the elevation array</span>
+
+<div class="viewcode-block" id="Terrain.set_elevation">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.set_elevation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_elevation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elevation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the elevation array</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        _______</span>
@@ -271,8 +214,11 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span> <span class="o">=</span> <span class="n">elevation</span></div>
 
-<div class="viewcode-block" id="Terrain.set_pixel_size"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.set_pixel_size">[docs]</a>    <span class="k">def</span> <span class="nf">set_pixel_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pixel_width</span><span class="p">,</span> <span class="n">pixel_height</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the pixel size in x and y directions</span>
+
+<div class="viewcode-block" id="Terrain.set_pixel_size">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.set_pixel_size">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_pixel_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pixel_width</span><span class="p">,</span> <span class="n">pixel_height</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the pixel size in x and y directions</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -289,13 +235,21 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span> <span class="o">=</span> <span class="n">pixel_width</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span> <span class="o">=</span> <span class="n">pixel_height</span></div>
 
-<div class="viewcode-block" id="Terrain.build_supported_GDAL_drivers_list"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.build_supported_GDAL_drivers_list">[docs]</a>    <span class="k">def</span> <span class="nf">build_supported_GDAL_drivers_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Build the list of supported GDAL drivers list</span>
+
+<div class="viewcode-block" id="Terrain.build_supported_GDAL_drivers_list">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.build_supported_GDAL_drivers_list">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_supported_GDAL_drivers_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the list of supported GDAL drivers list</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">osgeo</span><span class="w"> </span><span class="kn">import</span> <span class="n">gdal</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;Error in importing GDAL package. Make sure GDAL has been installed properly.&#39;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverCount</span><span class="p">()):</span>
             <span class="n">drv</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriver</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -303,9 +257,12 @@
 
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Supported GDAL drivers are: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">supportedGDALDrivers</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Terrain.create_constant_slope_channel_elevation"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.create_constant_slope_channel_elevation">[docs]</a>    <span class="k">def</span> <span class="nf">create_constant_slope_channel_elevation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">channel_lenx</span><span class="p">,</span> <span class="n">channel_leny</span><span class="p">,</span> <span class="n">pixel_width</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Terrain.create_constant_slope_channel_elevation">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.create_constant_slope_channel_elevation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_constant_slope_channel_elevation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">channel_lenx</span><span class="p">,</span> <span class="n">channel_leny</span><span class="p">,</span> <span class="n">pixel_width</span><span class="p">,</span>
                                               <span class="n">pixel_height</span><span class="p">,</span> <span class="n">elevation_origin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">extra_len</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a constant slope channel elevation</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a constant slope channel elevation</span>
 
 <span class="sd">        The slope is in the x direction only. The slope in the y direction is zero.</span>
 
@@ -346,8 +303,165 @@
             <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nx</span> <span class="o">+</span> <span class="n">extra_len_nx</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="p">[</span><span class="n">iy</span><span class="p">,</span> <span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">elevation_origin</span> <span class="o">-</span><span class="n">slope</span> <span class="o">*</span> <span class="p">(</span><span class="n">ix</span><span class="o">-</span><span class="n">extra_len_nx</span><span class="p">)</span> <span class="o">*</span> <span class="n">pixel_width</span></div>
 
-<div class="viewcode-block" id="Terrain.set_georeference"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.set_georeference">[docs]</a>    <span class="k">def</span> <span class="nf">set_georeference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geoTopLeft_x</span><span class="p">,</span> <span class="n">geoTopLeft_y</span><span class="p">,</span> <span class="n">EPSGCode</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the georeferencing information</span>
+
+<div class="viewcode-block" id="Terrain.add_bedform">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.add_bedform">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_bedform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_lenx</span><span class="p">,</span> <span class="n">channel_leny</span><span class="p">,</span> <span class="n">Lb</span><span class="p">,</span> <span class="n">Hb</span><span class="p">,</span> <span class="n">alpha_lee</span><span class="p">,</span> <span class="n">a_stoss</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">perturbation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">perturb_distribution</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add bedform feature to the terrain</span>
+
+<span class="sd">        Typical use scenario is firstly to create a constant slope channel and then add the bedform features.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        channel_lenx : float</span>
+<span class="sd">            channel length in x</span>
+<span class="sd">        channel_leny : float</span>
+<span class="sd">            channel length in y</span>
+<span class="sd">        Lb : float</span>
+<span class="sd">            bed form length</span>
+<span class="sd">        Hb : float</span>
+<span class="sd">            bed form height</span>
+<span class="sd">        alpha_lee : float</span>
+<span class="sd">            bed-form&#39;s lee side slope angle (in degrees)</span>
+<span class="sd">        a_stoss : float</span>
+<span class="sd">            bed-form&#39;s stoss size sine function amplitude</span>
+<span class="sd">        rotation : float</span>
+<span class="sd">            optional rotation angle of the domain in degrees (default is zero)</span>
+<span class="sd">        perturbation : float</span>
+<span class="sd">            optional perturbation added to the terrain (default is zero)</span>
+<span class="sd">        perturb_distribution: integer</span>
+<span class="sd">            optional perturbation distribution type: 0-uniform, 1-normal (mean=0, sd=perturbation/1.96)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#lee side length</span>
+        <span class="n">Llee</span> <span class="o">=</span> <span class="n">Hb</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">alpha_lee</span><span class="p">))</span>
+
+        <span class="c1">#stoss side length</span>
+        <span class="n">Lstoss</span> <span class="o">=</span> <span class="n">Lb</span> <span class="o">-</span> <span class="n">Llee</span>
+
+        <span class="k">if</span> <span class="n">Lstoss</span> <span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The calculated stoss lengh is negative. Check the bedform parameters.&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bedform lengths of stoss and lee sides are: &quot;</span><span class="p">,</span> <span class="n">Lstoss</span><span class="p">,</span> <span class="n">Llee</span><span class="p">)</span>
+
+        <span class="c1">#stoss side angle</span>
+        <span class="n">alpha_stoss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">Hb</span><span class="o">/</span><span class="n">Lstoss</span><span class="p">)</span>
+
+        <span class="c1">#raster size (without extra length)</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">channel_lenx</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span><span class="p">)</span>
+        <span class="n">ny</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">channel_leny</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span><span class="p">)</span>
+
+        <span class="c1"># set the elevation</span>
+        <span class="k">for</span> <span class="n">iy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+
+                <span class="c1"># get current grid point&#39;s coordinate</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">ix</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">iy</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span>
+                <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+                <span class="n">x_new</span> <span class="o">=</span> <span class="n">x</span>
+                <span class="n">y_new</span> <span class="o">=</span> <span class="n">y</span>
+
+                <span class="c1"># take care of optional rotation</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-3</span><span class="p">:</span>
+                    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mf">1e-6</span><span class="p">))</span>
+                    <span class="n">alpha_prime</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+                    <span class="n">x_new</span> <span class="o">=</span> <span class="n">L</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alpha_prime</span><span class="p">)</span>
+                    <span class="n">y_new</span> <span class="o">=</span> <span class="n">L</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alpha_prime</span><span class="p">)</span>
+
+                <span class="c1"># get the location of current grid point within one bedform</span>
+                <span class="n">xprime</span> <span class="o">=</span> <span class="n">x_new</span> <span class="o">%</span> <span class="n">Lb</span>
+
+                <span class="c1"># elevation due to the existence of bedform</span>
+                <span class="n">deltaZ</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+                <span class="k">if</span> <span class="n">xprime</span> <span class="o">&lt;=</span> <span class="n">Lstoss</span><span class="p">:</span>  <span class="c1">#if current location is in the stoss side</span>
+                    <span class="n">deltaZ</span> <span class="o">=</span> <span class="n">xprime</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">alpha_stoss</span><span class="p">)</span> <span class="o">-</span> <span class="n">a_stoss</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">xprime</span><span class="o">/</span><span class="n">Lstoss</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>                 <span class="c1">#if the current location is in the lee side</span>
+                    <span class="n">deltaZ</span> <span class="o">=</span> <span class="n">Hb</span> <span class="o">-</span> <span class="n">Hb</span><span class="o">*</span><span class="p">(</span><span class="n">xprime</span><span class="o">-</span><span class="n">Lstoss</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">Lb</span><span class="o">-</span><span class="n">Lstoss</span><span class="p">)</span>
+
+                <span class="c1"># shift the bedform so vertically the center is at the origin</span>
+                <span class="n">deltaZ</span> <span class="o">-=</span> <span class="n">Hb</span><span class="o">/</span><span class="mf">2.0</span>
+
+                <span class="c1"># take care of optional perturbation</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">perturbation</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-3</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">perturb_distribution</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span> <span class="c1">#uniform distribution</span>
+                        <span class="n">deltaZ</span> <span class="o">+=</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">perturbation</span>
+                    <span class="k">elif</span> <span class="n">perturb_distribution</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span> <span class="c1">#normal distribution</span>
+                        <span class="n">deltaZ</span> <span class="o">+=</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">normalvariate</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">perturbation</span><span class="o">/</span><span class="mf">1.96</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="p">(</span><span class="s2">&quot;Wrong choice of perturbation distribution = &quot;</span><span class="p">,</span> <span class="n">perturb_distribution</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="p">[</span><span class="n">iy</span><span class="p">,</span> <span class="n">ix</span><span class="p">]</span> <span class="o">+=</span> <span class="n">deltaZ</span></div>
+
+
+<div class="viewcode-block" id="Terrain.add_composite_channel">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.add_composite_channel">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_composite_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_lenx</span><span class="p">,</span> <span class="n">channel_leny</span><span class="p">,</span> <span class="n">L1</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add composite channel to the terrain</span>
+
+<span class="sd">        Typical use scenario is firstly to create a constant slope channel and then add the composite channel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        channel_lenx : float</span>
+<span class="sd">            channel length in x</span>
+<span class="sd">        channel_leny : float</span>
+<span class="sd">            channel length in y</span>
+<span class="sd">        L1 : float</span>
+<span class="sd">            flood plain&#39;s width on one side (the other side can be calculated)</span>
+<span class="sd">        B : float</span>
+<span class="sd">            main channel bottom width</span>
+<span class="sd">        D : float</span>
+<span class="sd">            main channel depth</span>
+<span class="sd">        alpha : float</span>
+<span class="sd">            main channel&#39;s side slope angle (in degrees)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#main channel slope&#39;s horizontal distance</span>
+        <span class="n">Lside</span> <span class="o">=</span> <span class="n">D</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span>
+
+        <span class="c1">#raster size (without extra length)</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">channel_lenx</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span><span class="p">)</span>
+        <span class="n">ny</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">channel_leny</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span><span class="p">)</span>
+
+        <span class="c1"># set the elevation</span>
+        <span class="k">for</span> <span class="n">iy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+
+                <span class="c1"># get current grid point&#39;s coordinate</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">ix</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixel_width</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">iy</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixel_height</span>
+
+                <span class="c1"># elevation modification due to the existence of main channel</span>
+                <span class="n">deltaZ</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">y</span><span class="o">&gt;</span><span class="n">L1</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">L1</span><span class="o">+</span><span class="n">Lside</span><span class="p">)):</span>
+                    <span class="n">deltaZ</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">L1</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">y</span><span class="o">&gt;</span><span class="p">(</span><span class="n">L1</span><span class="o">+</span><span class="n">Lside</span><span class="p">)</span> <span class="ow">and</span> <span class="n">y</span><span class="o">&lt;=</span> <span class="p">(</span><span class="n">L1</span><span class="o">+</span><span class="n">Lside</span><span class="o">+</span><span class="n">B</span><span class="p">)):</span>
+                    <span class="n">deltaZ</span> <span class="o">=</span> <span class="o">-</span><span class="n">D</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">y</span><span class="o">&gt;</span><span class="p">(</span><span class="n">L1</span><span class="o">+</span><span class="n">Lside</span><span class="o">+</span><span class="n">B</span><span class="p">)</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">L1</span><span class="o">+</span><span class="n">Lside</span><span class="o">+</span><span class="n">B</span><span class="o">+</span><span class="n">Lside</span><span class="p">)):</span>
+                    <span class="n">deltaZ</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">L1</span><span class="o">+</span><span class="n">Lside</span><span class="o">+</span><span class="n">B</span><span class="o">+</span><span class="n">Lside</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">deltaZ</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="p">[</span><span class="n">iy</span><span class="p">,</span> <span class="n">ix</span><span class="p">]</span> <span class="o">+=</span> <span class="n">deltaZ</span></div>
+
+
+
+<div class="viewcode-block" id="Terrain.set_georeference">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.set_georeference">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_georeference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geoTopLeft_x</span><span class="p">,</span> <span class="n">geoTopLeft_y</span><span class="p">,</span> <span class="n">EPSGCode</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the georeferencing information</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -375,8 +489,11 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">EPSGCode</span> <span class="o">=</span> <span class="n">EPSGCode</span></div>
 
-<div class="viewcode-block" id="Terrain.save_terrain_to_file"><a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.save_terrain_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">save_terrain_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">terrainFileName</span><span class="p">,</span> <span class="n">geoDriverName</span> <span class="o">=</span> <span class="s1">&#39;GTiff&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;save terrain to file, such as GeoTiff</span>
+
+<div class="viewcode-block" id="Terrain.save_terrain_to_file">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.Terrain.save_terrain_to_file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_terrain_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">terrainFileName</span><span class="p">,</span> <span class="n">geoDriverName</span> <span class="o">=</span> <span class="s1">&#39;GTiff&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;save terrain to file, such as GeoTiff</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------</span>
@@ -386,6 +503,12 @@
 <span class="sd">            GDAL raster driver names, such as &#39;GTiff&#39;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">osgeo</span><span class="w"> </span><span class="kn">import</span> <span class="n">gdal</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">osgeo</span><span class="w"> </span><span class="kn">import</span> <span class="n">osr</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;Error in importing GDAL package. Make sure GDAL has been installed properly.&#39;</span><span class="p">)</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Save the terrain to file:&quot;</span><span class="p">,</span> <span class="n">terrainFileName</span><span class="p">)</span>
 
@@ -417,52 +540,38 @@
         <span class="n">dst_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="p">)</span>
 
         <span class="c1"># Once we&#39;re done, close properly the dataset</span>
-        <span class="n">dst_ds</span> <span class="o">=</span> <span class="kc">None</span></div></div>
+        <span class="n">dst_ds</span> <span class="o">=</span> <span class="kc">None</span></div>
+</div>
+
 
 
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2020-2021, Xiaofeng Liu.
-
-    </p>
+    <p>&#169; Copyright 2020-2026, Xiaofeng Liu.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

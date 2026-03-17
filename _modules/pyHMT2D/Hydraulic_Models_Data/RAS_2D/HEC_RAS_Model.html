@@ -1,0 +1,965 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyHMT2D.Hydraulic_Models_Data.RAS_2D.HEC_RAS_Model &mdash; pyHMT2D 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d75fae25" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=74cb3bac" />
+
+  
+      <script src="../../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../contents.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html"><em>pyHMT2D</em> - Python-based Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#supported-platform">Supported Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#motivations">Motivations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#features">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#example-usage-see-the-aoeexamplesa-directory-for-more-details">Example Usage (see the â€œexamplesâ€ directory for more details)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#limitations">Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#api-documentation">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#acknowledgements-and-references">Acknowledgements and References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#author">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#contributors-and-contributor-agreement">Contributors and Contributor Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#how-to-cite-pyhmt2d">How to cite <em>pyHMT2D</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyHMT2D_API.html">pyHMT2D API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../contents.html">pyHMT2D</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../contents.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyHMT2D.Hydraulic_Models_Data.RAS_2D.HEC_RAS_Model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyHMT2D.Hydraulic_Models_Data.RAS_2D.HEC_RAS_Model</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">RAS_2D_Model:</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#import win32com.client as win32  #moved inside code</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.Hydraulic_Models_Data</span><span class="w"> </span><span class="kn">import</span> <span class="n">HydraulicModel</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.__common__</span><span class="w"> </span><span class="kn">import</span> <span class="n">gVerbose</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.Hydraulic_Models_Data.RAS_2D</span><span class="w"> </span><span class="kn">import</span> <span class="n">RAS_2D_Data</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HEC_RAS_Project</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; HEC-RAS project class (data from .prj file)</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        title : str</span>
+<span class="sd">            project title</span>
+<span class="sd">        currentPlanName : str</span>
+<span class="sd">            name of the current plan</span>
+<span class="sd">        geom_file_list : list</span>
+<span class="sd">            list of all geometry files</span>
+<span class="sd">        flow_file_list : list</span>
+<span class="sd">            list of all flow files</span>
+<span class="sd">        plan_file_list : list</span>
+<span class="sd">            list of all plan files</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">current_plan_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">currentPlanName</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">currentPlanFile</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">geom_file_list</span><span class="o">=</span><span class="p">[],</span>
+                 <span class="n">flow_file_list</span><span class="o">=</span><span class="p">[],</span> <span class="n">plan_file_list</span><span class="o">=</span><span class="p">[],</span> <span class="n">plans</span><span class="o">=</span><span class="p">[],</span> <span class="n">terrain_hdf_file_list</span><span class="o">=</span><span class="p">[],</span> <span class="n">terrain_tiff_file_list</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;HEC_RAS_Project class constructor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        title : str, optional</span>
+<span class="sd">            title</span>
+<span class="sd">        current_plan_index : int, optional</span>
+<span class="sd">            index of the current plan in the plans list</span>
+<span class="sd">        currentPlanName : str, optional</span>
+<span class="sd">            current plan&#39;s name</span>
+<span class="sd">        currentPlanFile : str, optional</span>
+<span class="sd">            current plan&#39;s file name</span>
+<span class="sd">        geom_file_list : str, optional</span>
+<span class="sd">            list of geometry file names</span>
+<span class="sd">        flow_file_list : str, optional</span>
+<span class="sd">            list of flow file names</span>
+<span class="sd">        plan_file_list : str, optional</span>
+<span class="sd">            list of plan file names</span>
+<span class="sd">        plans : str</span>
+<span class="sd">            list of HEC_RAS_Plan objects</span>
+<span class="sd">        terrain_hdf_file_list : str, optional</span>
+<span class="sd">            list of terrain hdf file names</span>
+<span class="sd">        terrain_tiff_file_list : str, optional</span>
+<span class="sd">            list of terrain tiff file names</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_plan_index</span> <span class="o">=</span> <span class="n">current_plan_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentPlanName</span> <span class="o">=</span> <span class="n">currentPlanName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentPlanFile</span> <span class="o">=</span> <span class="n">currentPlanFile</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain_hdf_file_list</span> <span class="o">=</span> <span class="n">terrain_hdf_file_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain_tiff_file_list</span> <span class="o">=</span> <span class="n">terrain_tiff_file_list</span>
+
+        <span class="c1">#current terrain file names </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_terrainHDF_file_name</span> <span class="o">=</span> <span class="n">terrain_hdf_file_list</span><span class="p">[</span><span class="n">current_plan_index</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_terrainTIFF_file_name</span> <span class="o">=</span> <span class="n">terrain_tiff_file_list</span><span class="p">[</span><span class="n">current_plan_index</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">geom_file_list</span> <span class="o">=</span> <span class="n">geom_file_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flow_file_list</span> <span class="o">=</span> <span class="n">flow_file_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plan_file_list</span> <span class="o">=</span> <span class="n">plan_file_list</span>
+
+        <span class="c1">#Plans in the opened HEC-RAS project: a list of HEC_RAS_Plan objects</span>
+        <span class="c1">#plans is a list of HEC_RAS_Plan objects: HEC_RAS_Plan(PlanNames[i], steady, geom_file, flow_file, plan_file)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plans</span> <span class="o">=</span> <span class="n">plans</span>
+
+        
+       
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_plan_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plan_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the index of the plan in the plans list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plan_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plans</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plans</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plan_name</span> <span class="o">==</span> <span class="n">plan_name</span><span class="p">:</span>
+                <span class="n">plan_index</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">plan_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: plan, &quot;</span><span class="p">,</span> <span class="n">plan_name</span><span class="p">,</span> <span class="s2">&quot;, not found in the plans list&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">plan_index</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_current_plan_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_plan_index</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        current_plan_index : int, optional</span>
+<span class="sd">            index of the current plan in the plans list</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_plan_index</span> <span class="o">=</span> <span class="n">current_plan_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentPlanName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plans</span><span class="p">[</span><span class="n">current_plan_index</span><span class="p">]</span><span class="o">.</span><span class="n">plan_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentPlanFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plans</span><span class="p">[</span><span class="n">current_plan_index</span><span class="p">]</span><span class="o">.</span><span class="n">plan_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_terrainHDF_file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">terrain_hdf_file_list</span><span class="p">[</span><span class="n">current_plan_index</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_terrainTIFF_file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">terrain_tiff_file_list</span><span class="p">[</span><span class="n">current_plan_index</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_plan_file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentPlanName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentPlanFile</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_terrainFileNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_terrainHDF_file_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_terrainTIFF_file_name</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Destructor</span>
+
+<span class="sd">        Clear out lists and objects (may not be necessary; but just to make sure</span>
+<span class="sd">        we don&#39;t cause memory leak)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">geom_file_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flow_file_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plan_file_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain_hdf_file_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terrain_tiff_file_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Define the string representation of the object as HEC-RAS case&#39;s title</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Define the object as a string representation</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;HEC-RAS Project: title = &quot;</span><span class="si">{}</span><span class="s1">&quot;, &#39;</span> \
+               <span class="s1">&#39;current plan name = &quot;</span><span class="si">{}</span><span class="s1">&quot;, &#39;</span> \
+               <span class="s1">&#39;geometry file list = &quot;</span><span class="si">{}</span><span class="s1">&quot;, &#39;</span> \
+               <span class="s1">&#39;flow file list = &quot;</span><span class="si">{}</span><span class="s1">&quot;, &#39;</span> \
+               <span class="s1">&#39;plan file list = &quot;</span><span class="si">{}</span><span class="s1">&quot;, &#39;</span> \
+               <span class="s1">&#39;plans = &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentPlanName</span><span class="p">,</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">geom_file_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flow_file_list</span><span class="p">,</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">plan_file_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">plans</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HEC_RAS_Plan</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; HEC-RAS plan (data from .p## file)</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">         title : str</span>
+<span class="sd">            title of the plan</span>
+<span class="sd">         steady : bool</span>
+<span class="sd">            whether it is steady or not</span>
+<span class="sd">         geom_file : str</span>
+<span class="sd">            geometry file name, e.g., g01, g02, etc.</span>
+<span class="sd">         flow_file : str</span>
+<span class="sd">            flow file name, e.g, u01, u02, etc.</span>
+<span class="sd">         plan_file : str</span>
+<span class="sd">            plan file name, e.g., p01, p02, etc.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">steady</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">geom_file</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">flow_file</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">plan_file</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;HEC_RAS_Plan class constructor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        title : str, optional</span>
+<span class="sd">            title of the plan, also the plan&#39;s name</span>
+<span class="sd">        steady : bool, optional</span>
+<span class="sd">            whether the plan is steady or not (unsteady)</span>
+<span class="sd">        geom_file : str, optional</span>
+<span class="sd">            geometry file name</span>
+<span class="sd">        flow_file : str, optional</span>
+<span class="sd">            flow file name</span>
+<span class="sd">        plan_file : str, optional</span>
+<span class="sd">            plan file name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plan_name</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steady</span> <span class="o">=</span> <span class="n">steady</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geom_file</span> <span class="o">=</span> <span class="n">geom_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flow_file</span> <span class="o">=</span> <span class="n">flow_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plan_file</span> <span class="o">=</span> <span class="n">plan_file</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;HEC-RAS plan: title = &quot;</span><span class="si">{}</span><span class="s1">&quot;, &#39;</span> \
+               <span class="s1">&#39;steady = &quot;</span><span class="si">{}</span><span class="s1">&quot;, &#39;</span> \
+               <span class="s1">&#39;geometry file = &quot;</span><span class="si">{}</span><span class="s1">&quot;, &#39;</span> \
+               <span class="s1">&#39;flow file = &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">steady</span><span class="p">,</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">geom_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flow_file</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HEC_RAS_Geometry</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Data for a HEC-RAS geometry (from .g## file)</span>
+
+<span class="sd">    Not implemented yet.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HEC_RAS_SteadyFlow</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Data for a HEC-RAS steady flow (from .f## file)</span>
+
+<span class="sd">    Not implemented yet.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HEC_RAS_UnsteadyFlow</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Data for a HEC-RAS unsteady flow (from .u## file)</span>
+
+<span class="sd">    Not implemented yet.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span>
+
+<div class="viewcode-block" id="HEC_RAS_Model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HEC_RAS_Model</span><span class="p">(</span><span class="n">HydraulicModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;HEC-RAS Model class</span>
+
+<span class="sd">    HEC-RAS Model controls the run of HEC-RAS. A plan can be loaded and executed.</span>
+<span class="sd">    Currently HEC_RAS_Model has very limited capability to modify HEC-RAS project,</span>
+<span class="sd">    plan, geometry, and flow data.     It is mainly used for Monte Carlo or batch simulations.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _faceless : bool</span>
+<span class="sd">            whether show the HEC-RAS GUI</span>
+<span class="sd">        _ras_path : str</span>
+<span class="sd">            path to the HEC-RAS program (Ras.exe)</span>
+<span class="sd">        _RASController: object</span>
+<span class="sd">            RASController</span>
+<span class="sd">        _project_file_name : str</span>
+<span class="sd">            HEC-RAS project name (including the full path)</span>
+<span class="sd">        _project : HEC_RAS_Project</span>
+<span class="sd">            HEC_RAS_Project object corresponding to current project</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">faceless</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;HEC_RAS_Model constructor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        version : str</span>
+<span class="sd">            HEC-RAS version</span>
+<span class="sd">        faceless : bool, optional</span>
+<span class="sd">            whether to run HEC-RAS without GUI</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">HydraulicModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;HEC-RAS&quot;</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+
+        <span class="c1">#whether run HEC-RAS without GUI interface showing up</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_faceless</span> <span class="o">=</span> <span class="n">faceless</span>
+
+        <span class="c1">#path to HEC-RAS&#39;s Ras.exe, e.g., C:\Program Files (x86)\HEC\HEC-RAS\5.0.7\Ras.exe</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ras_path</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#check the supplied version is supported or not</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">version</span> <span class="ow">in</span> <span class="n">get_supported_hec_ras_versions</span><span class="p">()):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Specified HEC-RAS version&quot;</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="s2">&quot;is not supported in current version of pyHMT2D.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Supported HEC-RAS versions are&quot;</span><span class="p">,</span> <span class="n">get_supported_hec_ras_versions</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exitting.&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_installed_hec_ras_versions</span> <span class="o">=</span> <span class="n">get_installed_hec_ras_versions</span><span class="p">()</span> <span class="c1"># get installed HEC-RAS versions on the</span>
+        <span class="c1"># computer</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_installed_hec_ras_versions</span><span class="p">):</span> <span class="c1">#if the available HEC-RAS list is empty</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No HEC-RAS installed on this computer. Install HEC-RAS first. Exitting.&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Available versions of HEC-RAS: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_installed_hec_ras_versions</span><span class="p">)</span>
+
+        <span class="c1">#check whether the specified HEC-RAS version is available</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">version</span> <span class="ow">in</span> <span class="n">get_installed_hec_ras_versions</span><span class="p">()):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Specified HEC-RAS version&quot;</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="s2">&quot;is not installed on this computer. Install it first.&quot;</span><span class="p">,</span>
+                                                         <span class="s2">&quot;Exitting.&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="c1">#RASController</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#HEC-RAS project name (including the full path)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_project_file_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="c1">#An HEC_RAS_Project object for the opened HEC-RAS project</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#RAS_2D_Data object to hold information about simulation case</span>
+        <span class="c1">#including mesh, boundary, and results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ras_2d_data</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Some clean up before exit.&quot;&quot;&quot;</span>
+
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="HEC_RAS_Model.init_model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.init_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Initialize a HEC-RAS instance</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initializing HEC-RAS ...&quot;</span><span class="p">)</span>
+
+        <span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+
+        <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Windows&#39;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">win32com.client</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">win32</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;Error in importing pywin32 package. Make sure it has been installed properly.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current OS: &quot;</span><span class="p">,</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;The use of pyHMT2D for HEC-RAS Model is only supported on Windows.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Should we kill all currently running HEC-RAS instances? Probably not a good idea.</span>
+        <span class="c1">#kill_all_hec_ras()</span>
+
+        <span class="c1"># If the HEC-RAS model has already been initialized, do nothing.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># print and confirm the HEC-RAS version</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;HEC-RAS version &#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">HECRASVersion</span><span class="p">(),</span> <span class="s1">&#39;has already been initialized.&#39;</span><span class="p">)</span>
+
+            <span class="k">return</span>
+
+        <span class="c1"># Difference between Dispatch and DispatchEx: the latter launches a new instance</span>
+        <span class="c1"># Two options: not too much of difference for a user</span>
+        <span class="c1"># late binding: python does not know what the object (HEC-RAS) can do</span>
+        <span class="c1"># ras = win32.Dispatch(&quot;RAS5x.HECRASController&quot;)</span>
+        <span class="c1"># or</span>
+        <span class="c1"># early binding: python knows what the object (HEC-RAS) can do</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getVersion</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;5.0.7&#39;</span><span class="p">):</span>
+            <span class="c1">#self._RASController = win32.gencache.EnsureDispatch(&#39;RAS507.HECRASController&#39;)</span>
+            <span class="c1">#self._RASController = win32.Dispatch(&quot;RAS507.HECRASController&quot;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="o">=</span> <span class="n">win32</span><span class="o">.</span><span class="n">DispatchEx</span><span class="p">(</span><span class="s2">&quot;RAS507.HECRASController&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getVersion</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;6.0.0&#39;</span><span class="p">):</span>
+            <span class="c1"># As of 03/21, &quot;RAS5x.HECRASController&quot; is the prog_id for HEC-RAS version 6 beta 1 and 2</span>
+            <span class="c1"># This may change (check in future).</span>
+            <span class="c1"># Updated 07/21: The latest official release of HEC-RAS v6.0.0&#39;s prog_id is &quot;RAS60.HECRASController&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="o">=</span> <span class="n">win32</span><span class="o">.</span><span class="n">gencache</span><span class="o">.</span><span class="n">EnsureDispatch</span><span class="p">(</span><span class="s1">&#39;RAS60.HECRASController&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getVersion</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;6.1.0&#39;</span><span class="p">):</span>
+            <span class="c1"># As of 03/21, &quot;RAS5x.HECRASController&quot; is the prog_id for HEC-RAS version 6 beta 1 and 2</span>
+            <span class="c1"># This may change (check in future).</span>
+            <span class="c1"># Updated 07/21: The latest official release of HEC-RAS v6.1.0&#39;s prog_id is &quot;RAS60.HECRASController&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="o">=</span> <span class="n">win32</span><span class="o">.</span><span class="n">gencache</span><span class="o">.</span><span class="n">EnsureDispatch</span><span class="p">(</span><span class="s1">&#39;RAS610.HECRASController&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getVersion</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;6.3.1&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="o">=</span> <span class="n">win32</span><span class="o">.</span><span class="n">gencache</span><span class="o">.</span><span class="n">EnsureDispatch</span><span class="p">(</span><span class="s1">&#39;RAS631.HECRASController&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getVersion</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;6.4.1&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="o">=</span> <span class="n">win32</span><span class="o">.</span><span class="n">gencache</span><span class="o">.</span><span class="n">EnsureDispatch</span><span class="p">(</span><span class="s1">&#39;RAS641.HECRASController&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getVersion</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;6.6&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="o">=</span> <span class="n">win32</span><span class="o">.</span><span class="n">gencache</span><span class="o">.</span><span class="n">EnsureDispatch</span><span class="p">(</span><span class="s1">&#39;RAS66.HECRASController&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The specified version of HEC-RAS is not currently supported.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># show HEC-RAS main window</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_faceless</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">ShowRas</span><span class="p">()</span>
+
+        <span class="c1"># print and confirm the HEC-RAS version</span>
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Successfully launched HEC-RAS version &#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">HECRASVersion</span><span class="p">())</span></div>
+
+
+        <span class="c1">#_ = input(&quot;Press ENTER to continue:&quot;)</span>
+
+
+<div class="viewcode-block" id="HEC_RAS_Model.open_project">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.open_project">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">open_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">projectFileName</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; open the specified HEC-RAS project</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        projectFileName : str</span>
+<span class="sd">            project file name including the path</span>
+<span class="sd">        terrainFileName : str, obsolete</span>
+<span class="sd">            file name for the terrain (not necessarily the terrain used by HEC-RAS for the project). This</span>
+<span class="sd">            terrain file (in GeoTiff format) is used to interpolate the elevation at face points (which HEC-RAS</span>
+<span class="sd">            does not export to result HDF files). This GeoTiff terrain file can be converted from the terrain used</span>
+<span class="sd">            in the HEC-RAS project. </span>
+
+<span class="sd">            7/25/2025: The mesh in a plan in HEC-RAS has the terrain information (in geometry hdf file). So, the terrain file is not</span>
+<span class="sd">            necessary.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            currentPlanFile : str</span>
+<span class="sd">                name of current plan file</span>
+<span class="sd">            currentPlanName: str</span>
+<span class="sd">                name of current plan</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HEC-RAS opens project: &quot;</span><span class="p">,</span> <span class="n">projectFileName</span><span class="p">)</span>
+
+        <span class="c1"># check whether the HEC-RAS model has been initialized. If not, call init_model()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_model</span><span class="p">()</span>
+
+        <span class="c1"># check whether the specified projectFileName file exists</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">projectFileName</span><span class="p">):</span>
+            <span class="c1">#get the absolute path of the project file (it seems HEC-RAS does not like the relative path)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_project_file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">projectFileName</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Project file &quot;</span><span class="si">{}</span><span class="s1">&quot; not found.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">projectFileName</span><span class="p">)</span>
+
+        <span class="c1"># open the project</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Project_Open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_project_file_name</span><span class="p">)</span>
+
+        <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">CurrentProjectTitle</span><span class="p">()</span>
+
+
+        <span class="c1">###########################################</span>
+        <span class="c1"># Build data for the HEC_RAS_Project object</span>
+        <span class="c1">###########################################</span>
+        <span class="n">PlanCount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">PlanNames</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">IncludeOnlyPlansInBaseDirectory</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">PlanCount</span><span class="p">,</span> <span class="n">PlanNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plan_names</span><span class="p">(</span><span class="n">IncludeOnlyPlansInBaseDirectory</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are &quot;</span><span class="p">,</span> <span class="n">PlanCount</span><span class="p">,</span> <span class="s2">&quot;plan(s) in current project.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Plan names: &#39;</span><span class="p">,</span> <span class="n">PlanNames</span><span class="p">)</span>  <span class="c1"># returns plan names</span>
+
+        <span class="c1">#infer the current plan from current plan file</span>
+        <span class="c1">#HEC-RAS does not provide a function to get current plan name</span>
+        <span class="n">currentPlanFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">CurrentPlanFile</span><span class="p">()</span>
+
+        <span class="n">currentPlanName</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">PlanCount</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">currentPlanFile</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Plan_GetFilename</span><span class="p">(</span><span class="n">PlanNames</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">currentPlanName</span> <span class="o">=</span> <span class="n">PlanNames</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">break</span>
+
+        <span class="c1">#print(&quot;Current plan name is &quot;, currentPlanName)</span>
+
+        <span class="c1">#If plans are not empty, build these plans</span>
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Building all the plans in the project ...&quot;</span><span class="p">)</span>
+
+        <span class="n">geom_file_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">terrain_hdf_file_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">terrain_tiff_file_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">flow_file_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">plan_file_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">plans</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">PlanCount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">PlanCount</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Plan &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">PlanNames</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span>
+
+                <span class="c1">#temporarily set the current plan to be PlanNames[i]; will be restored.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Plan_SetCurrent</span><span class="p">(</span><span class="n">PlanNames</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+                <span class="c1">#get the plan file for the current plan</span>
+                <span class="n">plan_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">CurrentPlanFile</span><span class="p">()</span>
+                <span class="n">plan_file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plan_file</span><span class="p">)</span>
+
+                <span class="c1">#get the geometry file for the current plan</span>
+                <span class="n">geom_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">CurrentGeomFile</span><span class="p">()</span>
+                <span class="n">geom_file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geom_file</span><span class="p">)</span>
+
+                <span class="c1">#get the terrain hdf file name and the tiff file name for the current plan</span>
+                <span class="n">terrain_hdf_file_name</span><span class="p">,</span> <span class="n">terrain_tiff_file_name</span> <span class="o">=</span> <span class="n">extract_terrain_file_names</span><span class="p">(</span><span class="n">geom_file</span><span class="p">)</span>
+                <span class="n">terrain_hdf_file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">terrain_hdf_file_name</span><span class="p">)</span>
+                <span class="n">terrain_tiff_file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">terrain_tiff_file_name</span><span class="p">)</span>
+
+                <span class="c1">#get the flow file for the current plan</span>
+                <span class="n">flow_file_steady</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">CurrentSteadyFile</span><span class="p">()</span>
+                <span class="n">flow_file_unsteady</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">CurrentUnSteadyFile</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    plan file = &quot;</span><span class="p">,</span> <span class="n">plan_file</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    geom file = &quot;</span><span class="p">,</span> <span class="n">geom_file</span><span class="p">)</span>
+
+                <span class="c1">#print(&quot;flow_file_steady = &quot;, flow_file_steady)</span>
+                <span class="c1">#print(&quot;flow_file_unsteady = &quot;, flow_file_unsteady)</span>
+
+                <span class="c1">#check whether both steady and unsteady flow files are empty</span>
+                <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">flow_file_steady</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">flow_file_unsteady</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: no flow file specified in the current plan. Exiting.&quot;</span><span class="p">)</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+                <span class="n">steady</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">flow_file_unsteady</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    It is an unsteady flow plan.&quot;</span><span class="p">)</span>
+                    <span class="n">flow_file</span> <span class="o">=</span> <span class="n">flow_file_unsteady</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    It is a steady flow plan.&quot;</span><span class="p">)</span>
+                    <span class="n">steady</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">flow_file</span> <span class="o">=</span> <span class="n">flow_file_steady</span>
+
+                <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    flow file = &quot;</span><span class="p">,</span> <span class="n">flow_file</span><span class="p">)</span>
+
+                <span class="n">flow_file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flow_file</span><span class="p">)</span>
+
+                <span class="n">plans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">HEC_RAS_Plan</span><span class="p">(</span><span class="n">PlanNames</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">steady</span><span class="p">,</span> <span class="n">geom_file</span><span class="p">,</span> <span class="n">flow_file</span><span class="p">,</span> <span class="n">plan_file</span><span class="p">))</span>
+
+        <span class="c1">#print(plans)</span>
+
+        <span class="c1">#find the index of the current plan in the plans list</span>
+        <span class="n">current_plan_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">plans</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">plans</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plan_name</span> <span class="o">==</span> <span class="n">currentPlanName</span><span class="p">:</span>
+                <span class="n">current_plan_index</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">current_plan_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: current plan, &quot;</span><span class="p">,</span> <span class="n">currentPlanName</span><span class="p">,</span> <span class="s2">&quot;, not found in the plans list&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="c1">#set the current plan to the current plan index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Plan_SetCurrent</span><span class="p">(</span><span class="n">plans</span><span class="p">[</span><span class="n">current_plan_index</span><span class="p">]</span><span class="o">.</span><span class="n">plan_name</span><span class="p">)</span>
+
+        <span class="c1">#set the current plan back to its original value</span>
+        <span class="c1">#self._RASController.Plan_SetCurrent(currentPlanName)</span>
+
+        <span class="c1">#create the HEC_RAS_Project object</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="o">=</span> <span class="n">HEC_RAS_Project</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">current_plan_index</span><span class="p">,</span> <span class="n">currentPlanName</span><span class="p">,</span> <span class="n">currentPlanFile</span><span class="p">,</span> <span class="n">geom_file_list</span><span class="p">,</span> 
+                                        <span class="n">flow_file_list</span><span class="p">,</span> <span class="n">plan_file_list</span><span class="p">,</span> <span class="n">plans</span><span class="p">,</span> <span class="n">terrain_hdf_file_list</span><span class="p">,</span> <span class="n">terrain_tiff_file_list</span><span class="p">)</span>
+
+        <span class="c1">#dump _project content to screen</span>
+        <span class="c1">#print(self._project)</span>
+
+        <span class="c1">#create RAS_2D_Data object (can&#39;t be here because the plan.hdf file exists only after the plan has been run)</span>
+        <span class="c1">#self._ras_2d_data = RAS_2D_Data(currentPlanFile + &quot;.hdf&quot;, terrainFileName)</span>
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span> 
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finished building all the plans in the project.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">currentPlanName</span><span class="p">,</span> <span class="n">currentPlanFile</span></div>
+
+
+<div class="viewcode-block" id="HEC_RAS_Model.set_current_plan">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.set_current_plan">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_current_plan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">planName</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        planName : str</span>
+<span class="sd">            name of the plan to be set as current. The name should be like &quot;Peak_flow_plan&quot;, not &quot;p01&quot; or &quot;p02&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#TODO: should check whether planName is in the list plans of current project</span>
+
+        <span class="c1">#Plan_SetCurrent(...) returns a tuple (True/False, planName)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Plan_SetCurrent</span><span class="p">(</span><span class="n">planName</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Call to set_current_plan(...) is successful. Current plan is &quot;</span><span class="p">,</span> <span class="n">planName</span><span class="p">,</span> <span class="s2">&quot; with plan file &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">CurrentPlanFile</span><span class="p">())</span>
+
+            <span class="c1">#set the current plan name and file name (this is to update the variables in the _project object)</span>
+            <span class="n">plan_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project</span><span class="o">.</span><span class="n">find_plan_index</span><span class="p">(</span><span class="n">planName</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_project</span><span class="o">.</span><span class="n">set_current_plan_index</span><span class="p">(</span><span class="n">plan_index</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Call to set_current_plan(...) failed. Current plan not changed. Check the validity of the plan name: &quot;</span><span class="p">,</span> <span class="n">planName</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HEC_RAS_Model.get_current_planFile">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.get_current_planFile">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_planFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the current plan file (it seems there is no function to get plan name)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">plan_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">CurrentPlanFile</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">plan_file</span></div>
+
+
+    
+
+<div class="viewcode-block" id="HEC_RAS_Model.load_current_plan_results">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.load_current_plan_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_current_plan_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the current plan results to ras_2d_data</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">currentPlanName</span><span class="p">,</span> <span class="n">currentPlanFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project</span><span class="o">.</span><span class="n">get_current_plan_file_name</span><span class="p">()</span>
+        <span class="n">current_terrainHDF_file_name</span><span class="p">,</span> <span class="n">current_terrainTIFF_file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project</span><span class="o">.</span><span class="n">get_current_terrainFileNames</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading results for current plan: &quot;</span><span class="p">,</span> <span class="n">currentPlanName</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current plan file: &quot;</span><span class="p">,</span> <span class="n">currentPlanFile</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current terrain TIFF file: &quot;</span><span class="p">,</span> <span class="n">current_terrainTIFF_file_name</span><span class="p">)</span>
+
+        <span class="c1">#check whether the hdf file exists</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">currentPlanFile</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The result HDF file for current plan does not exist. Make sure to run HEC-RAS before calling this function.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">current_terrainTIFF_file_name</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The specified terrain TIFF file &quot;</span> <span class="o">+</span> <span class="n">current_terrainTIFF_file_name</span> <span class="o">+</span> <span class="s2">&quot; does not exist.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ras_2d_data</span> <span class="o">=</span> <span class="n">RAS_2D_Data</span><span class="p">(</span><span class="n">currentPlanFile</span> <span class="o">+</span> <span class="s2">&quot;.hdf&quot;</span><span class="p">)</span></div>
+
+                
+            <span class="c1">#try:</span>
+            <span class="c1">#    self._ras_2d_data = RAS_2D_Data(currentPlanFile + &quot;.hdf&quot;)</span>
+            <span class="c1">#except Exception as e:                </span>
+            <span class="c1">#    raise Exception(&quot;Error in loading the results for current plan. &quot; + str(e))</span>
+
+
+<div class="viewcode-block" id="HEC_RAS_Model.get_simulation_case">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.get_simulation_case">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_simulation_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bReload</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the simulation case to RAS_2D_data</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ras_2d_data : RAS_2D_Data</span>
+<span class="sd">            an object from class RAS_2D_Data, which should be created before calling</span>
+<span class="sd">        bRelaod: bool</span>
+<span class="sd">            whether to reload the results from the HDF file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ras_2d_data</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">bReload</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load_current_plan_results</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ras_2d_data</span></div>
+
+
+<div class="viewcode-block" id="HEC_RAS_Model.get_current_project">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.get_current_project">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_project</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current opened project</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;HEC-RAS has no project opend. Open the project first.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="HEC_RAS_Model.save_project">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.save_project">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_project</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the current project</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>  <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Saving project: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">CurrentProjectTitle</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Project_Save</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="HEC_RAS_Model.close_project">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.close_project">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close_project</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the current project (if any)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Closing project: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">CurrentProjectTitle</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Project_Close</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="HEC_RAS_Model.run_model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.run_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Run the HEC-RAS model</span>
+
+<span class="sd">        A project and a plan have to be defined and selected before the run.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#check: HEC-RAS controller has been initialized and a project has been opened.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HEC-RAS model has not been initialized yet. Call init_model() first.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Project_Current</span><span class="p">()):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No HEC-RAS project has been opened yet. Call open_project(...) first.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HEC-RAS is computing the current plan ...&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_faceless</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Compute_HideComputationWindow</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Compute_ShowComputationWindow</span><span class="p">()</span>
+
+        <span class="n">nmsg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Compute_CurrentPlan</span><span class="p">(</span><span class="n">nmsg</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+
+        <span class="c1">#print computing message</span>
+        <span class="n">bRunSucessful</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HEC-RAS computed successfully.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HEC-RAS computed unsuccessfully. The HEC-RAS Controller&#39;s Compute_CurrentPlan() function returned &quot;</span>
+                      <span class="s2">&quot;False.&quot;</span><span class="p">)</span>
+            <span class="n">bRunSucessful</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The returned messages are:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;res = &quot;</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nmsg = &quot;</span><span class="p">,</span> <span class="n">nmsg</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;msg = &quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    &quot;</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">bRunSucessful</span></div>
+
+
+<div class="viewcode-block" id="HEC_RAS_Model.exit_model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.exit_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">exit_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Exit the model (HEC-RAS specific)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Quitting HEC-RAS ...&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">QuitRas</span><span class="p">()</span>
+
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span>
+
+            <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finished quitting HEC-RAS.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HEC_RAS_Model.get_plan_names">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model.get_plan_names">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_plan_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IncludeOnlyPlansInBaseDirectory</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the list of plan names in the current project</span>
+
+<span class="sd">        Based on this COM object function:</span>
+<span class="sd">        Plan_Names(self, PlanCount=defaultNamedNotOptArg, PlanNames=defaultNamedNotOptArg,</span>
+<span class="sd">        IncludeOnlyPlansInBaseDirectory=defaultNamedNotOptArg)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        IncludeOnlyPlansInBaseDirectory : bool</span>
+<span class="sd">            whether only include plans in the base directory</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        PlanCount : int</span>
+<span class="sd">            number of plans in the current project</span>
+<span class="sd">        PlanNames : list</span>
+<span class="sd">            a list of plan names in the current project</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RASController has not been created yet. Call init_model() first to create a RASController.&quot;</span><span class="p">)</span>
+
+        <span class="c1">#it returns PlanCount, PlanNames and IncludeOnlyPlansInBaseDirectory (temp; not used)</span>
+        <span class="n">PlanCount</span><span class="p">,</span> <span class="n">PlanNames</span><span class="p">,</span> <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RASController</span><span class="o">.</span><span class="n">Plan_Names</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">IncludeOnlyPlansInBaseDirectory</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">PlanCount</span><span class="p">,</span> <span class="n">PlanNames</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2026, Xiaofeng Liu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

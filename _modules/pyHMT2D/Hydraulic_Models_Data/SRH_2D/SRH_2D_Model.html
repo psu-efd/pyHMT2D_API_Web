@@ -1,0 +1,512 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyHMT2D.Hydraulic_Models_Data.SRH_2D.SRH_2D_Model &mdash; pyHMT2D 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d75fae25" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=74cb3bac" />
+
+  
+      <script src="../../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../contents.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html"><em>pyHMT2D</em> - Python-based Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#supported-platform">Supported Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#motivations">Motivations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#features">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#example-usage-see-the-aoeexamplesa-directory-for-more-details">Example Usage (see the â€œexamplesâ€ directory for more details)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#limitations">Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#api-documentation">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#acknowledgements-and-references">Acknowledgements and References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#author">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#contributors-and-contributor-agreement">Contributors and Contributor Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#how-to-cite-pyhmt2d">How to cite <em>pyHMT2D</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyHMT2D_API.html">pyHMT2D API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../contents.html">pyHMT2D</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../contents.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyHMT2D.Hydraulic_Models_Data.SRH_2D.SRH_2D_Model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyHMT2D.Hydraulic_Models_Data.SRH_2D.SRH_2D_Model</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SRH_2D_Model:</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.Hydraulic_Models_Data</span><span class="w"> </span><span class="kn">import</span> <span class="n">HydraulicModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.Misc.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">printProgressBar</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.SRH_2D_Data</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+
+
+<div class="viewcode-block" id="SRH_2D_Model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Model">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SRH_2D_Model</span><span class="p">(</span><span class="n">HydraulicModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;SRH-2D Model which can control simulation runs.</span>
+
+<span class="sd">    SRH_2D_Model controls the run of SRH-2D. A case can be loaded and executed. Currently</span>
+<span class="sd">    SRH_2D_Model has very limited capability to modify geometry, mesh, and flow data. One</span>
+<span class="sd">    of the main use scenarios is for Monte Carlo or batch simulations.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _faceless : bool</span>
+<span class="sd">            whether show the SRH-2D window when it is running</span>
+<span class="sd">        _srh_path : str</span>
+<span class="sd">            path to the SRH_2D program (e.g., srh_2d.exe depending on the version of SRH-2D and the operating system)</span>
+<span class="sd">        _srh_pre_path : str</span>
+<span class="sd">            path to the SRH_2D preprocessing program (e.g., srh_2d_pre.exe depending on the version of SRH-2D and the operating system)</span>
+<span class="sd">        _extra_dll_path : str</span>
+<span class="sd">            path for library Dlls, such as XMDL, zlib, hdf5, and msvcr used by SRH-2D (only relevant for Windows).</span>
+<span class="sd">        _srh_2d_data : SRH_2D_Data</span>
+<span class="sd">            a SRH_2D_Data object to hold the simulation case data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">srh_pre_path</span><span class="p">,</span> <span class="n">srh_path</span><span class="p">,</span> <span class="n">extra_dll_path</span><span class="p">,</span> <span class="n">faceless</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;SRH_2D_Model constructor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        version : str</span>
+<span class="sd">            version number of SRH-2D</span>
+<span class="sd">        srh_pre_path : str</span>
+<span class="sd">            path to the SRH_2D preprocessing program (e.g., srh_2d_pre.exe depending on the version)</span>
+<span class="sd">        srh_path : str</span>
+<span class="sd">            path to the SRH_2D program (e.g., srh_2d.exe depending on the version)</span>
+<span class="sd">        extra_dll_path : str</span>
+<span class="sd">            path for library Dlls, such as XMDL, zlib, hdf5, and msvcr used by SRH-2D</span>
+<span class="sd">        faceless : bool, optional</span>
+<span class="sd">            whether show the SRH-2D window when it is running</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">HydraulicModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;SRH-2D&quot;</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+
+        <span class="c1">#whether run HEC-RAS without GUI interface showing up</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_faceless</span> <span class="o">=</span> <span class="n">faceless</span>
+
+        <span class="c1">#path for srh_2d_pre.exe and srh_2d.exe (names could vary)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_srh_pre_path</span> <span class="o">=</span> <span class="n">srh_pre_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_srh_path</span> <span class="o">=</span> <span class="n">srh_path</span>
+
+        <span class="c1">#path for library Dlls, such as XMDL, zlib, hdf5, and msvcr used by SRH-2D.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extra_dll_path</span> <span class="o">=</span> <span class="n">extra_dll_path</span>
+
+        <span class="c1">#SRH_2D_Data object to hold information about simulation case</span>
+        <span class="c1">#including srhhydro, srhgeom, srhmat, etc.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#check the operating system</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_os_type</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="SRH_2D_Model.init_model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Model.init_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize SRH-2D model</span>
+
+<span class="sd">        It will check the existance of SRH-2D executable files and add extra DLL path</span>
+<span class="sd">        to the system PATH environment (only relevant for Windows).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initializing SRH-2D ...&quot;</span><span class="p">)</span>
+
+        <span class="c1">#check whether the specified executable files exist</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_srh_pre_path</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The SRH-2D Pre executable file&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_pre_path</span><span class="p">,</span> <span class="s2">&quot;does not exists. Exiting ...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_srh_path</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The SRH-2D executable file&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_path</span><span class="p">,</span> <span class="s2">&quot;does not exists. Exiting ...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="c1">#check whether the specified extra Dll path exists (only relevant for Windows)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_os_type</span> <span class="o">==</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_extra_dll_path</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The extra DLL library path&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extra_dll_path</span><span class="p">,</span> <span class="s2">&quot;does not exists. Exiting ...&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+            <span class="c1">#add the extra Dll path to &quot;PATH&quot; environment (only temporarily)</span>
+            <span class="n">extra_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_extra_dll_path</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extra_path</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SRH_2D_Model.open_project">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Model.open_project">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">open_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">srhcontrol_filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open a SRH-2D project with the specified srhcontrol file which can be a srhhydro or SIF file</span>
+
+<span class="sd">        A SRH_2D_Data object will be created to hold the project information.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        srhcontrol_filename : str</span>
+<span class="sd">            name of the srhcontrol file which can be a srhhydro or SIF file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#check whether it is a srhhydro or SIF file</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">srhcontrol_filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.srhhydro&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+           <span class="ow">not</span> <span class="p">(</span><span class="s2">&quot;sif&quot;</span> <span class="ow">in</span> <span class="n">srhcontrol_filename</span><span class="o">.</span><span class="n">lower</span><span class="p">()):</span>  <span class="c1">#contains &quot;sif&quot; or &quot;SIF&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The SRH-2D control file must be either srhhydro or SIF file. Exiting ...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="c1">#check if the srhcontrol file exists</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">srhcontrol_filename</span><span class="p">):</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The SRH-2D control file&quot;</span><span class="p">,</span> <span class="n">srhcontrol_filename</span><span class="p">,</span> <span class="s2">&quot;does not exists. Exiting ...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span> <span class="o">=</span> <span class="n">SRH_2D_Data</span><span class="p">(</span><span class="n">srhcontrol_filename</span><span class="p">)</span>
+
+        <span class="c1">#currently, pyHMT2D only supports srhhydro file on Windows and SIF file on Linux</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_os_type</span> <span class="o">==</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">control_type</span> <span class="o">==</span> <span class="s2">&quot;SRHHydro&quot;</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">control_type</span> <span class="o">==</span> <span class="s2">&quot;SIF&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Currently, pyHMT2D only supports SIF file on Linux, not Windows. Exiting ...&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_os_type</span> <span class="o">==</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">control_type</span> <span class="o">==</span> <span class="s2">&quot;SRHHydro&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Currently, pyHMT2D only supports SRHHydro file on Windows, not Linux. Exiting ...&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">control_type</span> <span class="o">==</span> <span class="s2">&quot;SIF&quot;</span><span class="p">:</span>
+                <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="SRH_2D_Model.set_simulation_case">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Model.set_simulation_case">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_simulation_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">srh_2d_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the simulation case to srh_2D_data (if it has been created already)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        srh_2d_data : SRH_2D_Data</span>
+<span class="sd">            an object from class SRH_2D_Data, which should be created before calling</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span> <span class="o">=</span> <span class="n">srh_2d_data</span></div>
+
+
+<div class="viewcode-block" id="SRH_2D_Model.get_simulation_case">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Model.get_simulation_case">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_simulation_case</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the simulation case to srh_2D_data</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        srh_2d_data : SRH_2D_Data</span>
+<span class="sd">            an object from class SRH_2D_Data, which should be created before calling</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span></div>
+
+
+<div class="viewcode-block" id="SRH_2D_Model.close_project">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Model.close_project">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close_project</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the opened SRH-2D project (if any)</span>
+
+<span class="sd">        It will set _srh_2d_data to None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="SRH_2D_Model.run_model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Model.run_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sleepTime</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">bShowProgress</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the SRH-2D model</span>
+
+<span class="sd">        It will run the current SRH-2D project (case) and show a progress bar. The case</span>
+<span class="sd">        has to be created before with open_project(...) or set_simulation_case().</span>
+
+<span class="sd">        :param sleepTime: float</span>
+<span class="sd">            sleep time between each check on the progress</span>
+<span class="sd">        :param bShowProgress: bool</span>
+<span class="sd">            whether show the progress bar</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_path</span>
+        <span class="n">case_file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">get_case_name</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;.DAT&quot;</span>           <span class="c1">#e.g., Cimarron.DAT</span>
+        <span class="n">case_INF_file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">get_case_name</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_INF.DAT&quot;</span>   <span class="c1">#e.g., Cimarron_INF.DAT</span>
+
+        <span class="c1">#validate sleepTime is a positive number between (1 and 100)</span>
+        <span class="k">if</span> <span class="n">sleepTime</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="n">sleepTime</span> <span class="o">&gt;</span> <span class="mf">100.0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sleepTime must be a positive number between (1 and 100) seconds. Exiting ...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="c1">#validate sleepTime is a float</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sleepTime</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sleepTime must be a float. Exiting ...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running SRH-2D case with input file:&quot;</span><span class="p">,</span> <span class="n">case_file_name</span><span class="p">)</span>
+
+        <span class="c1">#get the start and end time in hours</span>
+        <span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
+        <span class="n">deltaT</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">control_type</span> <span class="o">==</span> <span class="s2">&quot;SRHHydro&quot;</span><span class="p">:</span>
+            <span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">srhhydro_obj</span><span class="o">.</span><span class="n">get_simulation_start_end_time</span><span class="p">()</span>
+            <span class="n">deltaT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">srhhydro_obj</span><span class="o">.</span><span class="n">get_simulation_time_step_size</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">control_type</span> <span class="o">==</span> <span class="s2">&quot;SIF&quot;</span><span class="p">:</span>
+            <span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">srhsif_obj</span><span class="o">.</span><span class="n">get_simulation_start_end_time</span><span class="p">()</span>
+            <span class="n">deltaT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">srhsif_obj</span><span class="o">.</span><span class="n">get_simulation_time_step_size</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;startTime, endTime (hr) = &quot;</span><span class="p">,</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time step size (s) = &quot;</span><span class="p">,</span> <span class="n">deltaT</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">case_INF_file_name</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Removing case&#39;s existing _INF.DAT file ...&quot;</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">case_INF_file_name</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error while deleting case&#39;s existing _INF.DAT file. Exiting ...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="n">cmd</span><span class="p">,</span> <span class="n">case_file_name</span><span class="p">],</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                          <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">bShowProgress</span><span class="p">:</span>
+            <span class="c1"># print the simulation progress bar</span>
+            <span class="n">totalClicks</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># this is the granularity of the progress bar (how many times it needs to be updated)</span>
+
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># counter to track how many times (out of 100) the bar() function has been called</span>
+
+                <span class="n">previous_checked_simulation_time</span> <span class="o">=</span> <span class="n">startTime</span>  <span class="c1"># this may not work if it is a restart simulation (?)</span>
+
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleepTime</span><span class="p">)</span>  <span class="c1"># check the simulation progress every 5 s (this value needs to be updated for each case</span>
+                <span class="c1"># depending on how long the simulation will be).</span>
+
+                <span class="c1"># get the latest simulation information from the INF file</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">case_INF_file_name</span><span class="p">):</span>
+                    <span class="n">info_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">case_INF_file_name</span><span class="p">,</span> <span class="n">skip_header</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="c1"># print(info_data[-1,1])  #latest &quot;Time(Hours)&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># need to consider the scenarios that there is zero line, one line, and multiple lines of INFO output</span>
+                <span class="n">current_simulation_time</span> <span class="o">=</span> <span class="n">startTime</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">info_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">current_simulation_time</span> <span class="o">=</span> <span class="n">startTime</span>
+                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">info_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">current_simulation_time</span> <span class="o">=</span> <span class="n">info_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">info_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="n">current_simulation_time</span> <span class="o">=</span> <span class="n">info_data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+                    <span class="n">time_passed_since_last_check</span> <span class="o">=</span> <span class="n">current_simulation_time</span> <span class="o">-</span> <span class="n">previous_checked_simulation_time</span>
+                    <span class="n">clicks_since_last_check</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time_passed_since_last_check</span> <span class="o">/</span> <span class="p">(</span><span class="n">endTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)</span> <span class="o">*</span> <span class="n">totalClicks</span><span class="p">)</span>
+
+                    <span class="n">counter</span> <span class="o">+=</span> <span class="n">clicks_since_last_check</span>
+
+                    <span class="c1"># print(&quot;clicks_since_last_check, counter&quot;, clicks_since_last_check, counter)</span>
+
+                    <span class="k">if</span> <span class="n">clicks_since_last_check</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">printProgressBar</span><span class="p">(</span><span class="n">counter</span><span class="p">,</span> <span class="n">totalClicks</span><span class="p">,</span> <span class="s2">&quot;Simulation in progress&quot;</span><span class="p">)</span>
+                        <span class="c1"># print(&quot;test&quot;)   #Don&#39;t do this. It will create a new progress bar each time.</span>
+
+                    <span class="n">previous_checked_simulation_time</span> <span class="o">=</span> <span class="n">current_simulation_time</span>
+
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>  <span class="c1"># try to catch the occational index error if the INF write is not compplete.</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="n">counter</span> <span class="o">&gt;</span> <span class="n">totalClicks</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+                <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1">#check whehter the run was successful</span>
+        <span class="n">bRunSucessful</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;successfully executed&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">bRunSucessful</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">bRunSucessful</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SRH-2D simulation was successfully done!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SRH-2D simulation was not successful! Check the output files.&quot;</span><span class="p">)</span>
+
+        <span class="c1">#p.stdout.close()</span>
+        <span class="c1">#p.kill()</span>
+
+        <span class="k">return</span> <span class="n">bRunSucessful</span></div>
+
+
+
+<div class="viewcode-block" id="SRH_2D_Model.run_pre_model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Model.run_pre_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_pre_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run SRH-2D Pre to preprocess the simulation case</span>
+
+<span class="sd">        Run SRH-2D&#39;s preprocessing step for current case.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_pre_path</span>
+        <span class="n">case_srhcontrol_file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">srhcontrol_filename</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running SRH-2D Pre with case control input file (srhhydro or SIF):&quot;</span><span class="p">,</span> <span class="n">case_srhcontrol_file_name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">case_srhcontrol_file_name</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The case control file does not exist:&quot;</span><span class="p">,</span> <span class="n">case_srhcontrol_file_name</span><span class="p">,</span> <span class="s2">&quot;Exiting ...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="c1">#depending on the control file type, call the corresponding preprocessing program</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">control_type</span> <span class="o">==</span> <span class="s2">&quot;SRHHydro&quot;</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">cmd</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="n">case_srhcontrol_file_name</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                           <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">control_type</span> <span class="o">==</span> <span class="s2">&quot;SIF&quot;</span><span class="p">:</span>
+            <span class="c1">#get the base case name, e.g., Cimarron_SIF.dat -&gt; Cimarron</span>
+            <span class="n">base_case_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srh_2d_data</span><span class="o">.</span><span class="n">get_case_name</span><span class="p">()</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">cmd</span><span class="p">,</span> <span class="n">base_case_name</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                           <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;successfully executed&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SRH-2D Pre was successfully done!&quot;</span><span class="p">)</span>
+            <span class="c1">#p.stdout.close()</span>
+            <span class="c1">#p.kill()</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SRH-2D Pre was not successfully! Check the output files.&quot;</span><span class="p">)</span>
+            <span class="c1">#p.stdout.close()</span>
+            <span class="c1">#p.kill()</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="SRH_2D_Model.exit_model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Model.exit_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">exit_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the model (SRH-2D specific)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2026, Xiaofeng Liu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

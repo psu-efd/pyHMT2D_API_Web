@@ -1,274 +1,195 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>pyHMT2D &mdash; pyHMT2D 1.0.0 documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=74cb3bac" />
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/clipboard.min.js"></script>
-        <script src="_static/copybutton.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pyHMT2D - Python Hydraulic Modeling Tools - 2D" href="README.html" /> 
+    <link rel="next" title="pyHMT2D - Python-based Hydraulic Modeling Tools - 2D" href="README.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="#" class="icon icon-home"> pyHMT2D
           
-
-          
+          <a href="#">
+            
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="README.html"><em>pyHMT2D</em> - Python Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html"><em>pyHMT2D</em> - Python-based Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#supported-platform">Supported Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#motivations">Motivations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#features">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#example-usage-see-the-aoeexamplesa-directory-for-more-details">Example Usage (see the â€œexamplesâ€ directory for more details)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#limitations">Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#api-documentation">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#acknowledgements-and-references">Acknowledgements and References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#author">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#contributors-and-contributor-agreement">Contributors and Contributor Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#how-to-cite-pyhmt2d">How to cite <em>pyHMT2D</em></a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyHMT2D_API.html">pyHMT2D API</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="#">pyHMT2D</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>pyHMT2D</li>
-    
-    
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pyHMT2D</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="banner" style="text-align:center">
+             
+  <div class="banner" style="text-align:center">
     <a href="https://github.com/psu-efd/pyHMT2D"><img src="_static/images/pyhmt2d_logo_vel_color_vector.png" alt="pyHMT2D" width="100%"/></a>
     <h1>pyHMT2D: a Python tool library for two-dimensional hydraulic modeling</h1>
 </div><p>This is a short documentation of pyHMT2D and its API. More detailed information about how to use pyHMT2D, algoritms, implementations, and some of the theoretical background are in the user manual.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="README.html"><em>pyHMT2D</em> - Python Hydraulic Modeling Tools - 2D</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="README.html#motivations">Motivations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#example-usage">Example Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#limitations">Limitations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#acknowledgements-and-references">Acknowledgements and references</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#license">License</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#author">Author</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#contributors-and-contributor-agreement">Contributors and contributor agreement</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="README.html#the-list-of-contributors">The list of contributors:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="README.html#contributor-agreement">Contributor agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html"><em>pyHMT2D</em> - Python-based Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#supported-platform">Supported Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#motivations">Motivations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#features">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#installation">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#clone-and-install-in-a-development-environment-recommended">Clone and install in a development environment (recommended)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#example-usage-see-the-aoeexamplesa-directory-for-more-details">Example Usage (see the â€œexamplesâ€ directory for more details)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#use-in-your-own-python-code-more-flexibility">Use in your own Python code (more flexibility)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#command-line-interface-cli">Command line interface (CLI)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#limitations">Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#api-documentation">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#acknowledgements-and-references">Acknowledgements and References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#author">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#contributors-and-contributor-agreement">Contributors and Contributor Agreement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#the-list-of-contributors">The list of contributors:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#contributor-agreement">Contributor agreement</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#how-to-cite-pyhmt2d">How to cite <em>pyHMT2D</em></a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyHMT2D_API.html">pyHMT2D API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyHMT2D_API.html#module-pyHMT2D.Hydraulic_Models_Data_Base">pyHMT2D base classes, constants, and tools</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyHMT2D_API.html#backwater-1d-related-classes-and-tools">Backwater-1D related classes and tools</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyHMT2D_API.html#srh-2d-related-classes-and-tools">SRH-2D related classes and tools</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyHMT2D_API.html#hec-ras-related-classes-and-tools">HEC-RAS related classes and tools</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyHMT2D_API.html#miscellaneous-classes-and-tools">Miscellaneous classes and tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyHMT2D_API.html#module-pyHMT2D.Hydraulic_Models_Data_Base">pyHMT2D base classes, constants, and tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicData"><code class="docutils literal notranslate"><span class="pre">HydraulicData</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.Hydraulic_Models_Data_Base.HydraulicModel"><code class="docutils literal notranslate"><span class="pre">HydraulicModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.__common__.gMax_Nodes_per_Element"><code class="docutils literal notranslate"><span class="pre">gMax_Nodes_per_Element</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.__common__.gMax_Elements_per_Node"><code class="docutils literal notranslate"><span class="pre">gMax_Elements_per_Node</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyHMT2D_API.html#backwater-1d-related-classes-and-tools">Backwater-1D related classes and tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Data"><code class="docutils literal notranslate"><span class="pre">Backwater_1D_Data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Model"><code class="docutils literal notranslate"><span class="pre">Backwater_1D_Model</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyHMT2D_API.html#srh-2d-related-classes-and-tools">SRH-2D related classes and tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Data"><code class="docutils literal notranslate"><span class="pre">SRH_2D_Data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_Model"><code class="docutils literal notranslate"><span class="pre">SRH_2D_Model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_SIF"><code class="docutils literal notranslate"><span class="pre">SRH_2D_SIF</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_SRHGeom"><code class="docutils literal notranslate"><span class="pre">SRH_2D_SRHGeom</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_SRHHydro"><code class="docutils literal notranslate"><span class="pre">SRH_2D_SRHHydro</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.SRH_2D.SRH_2D_SRHMat"><code class="docutils literal notranslate"><span class="pre">SRH_2D_SRHMat</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyHMT2D_API.html#hec-ras-related-classes-and-tools">HEC-RAS related classes and tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.RAS_2D.HEC_RAS_Model"><code class="docutils literal notranslate"><span class="pre">HEC_RAS_Model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.RAS_2D.RAS_2D_Data"><code class="docutils literal notranslate"><span class="pre">RAS_2D_Data</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyHMT2D_API.html#miscellaneous-classes-and-tools">Miscellaneous classes and tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.Misc.RAS_to_SRH_Converter"><code class="docutils literal notranslate"><span class="pre">RAS_to_SRH_Converter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.Misc.Terrain"><code class="docutils literal notranslate"><span class="pre">Terrain</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyHMT2D_API.html#pyHMT2D.Misc.gmsh2d_to_srh"><code class="docutils literal notranslate"><span class="pre">gmsh2d_to_srh()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="README.html" class="btn btn-neutral float-right" title="pyHMT2D - Python Hydraulic Modeling Tools - 2D" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-right" title="pyHMT2D - Python-based Hydraulic Modeling Tools - 2D" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2020-2021, Xiaofeng Liu.
-
-    </p>
+    <p>&#169; Copyright 2020-2026, Xiaofeng Liu.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

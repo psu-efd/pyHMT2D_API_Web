@@ -1,0 +1,645 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyHMT2D.Misc.gmsh2d_to_srh &mdash; pyHMT2D 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=74cb3bac" />
+
+  
+      <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../contents.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html"><em>pyHMT2D</em> - Python-based Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#supported-platform">Supported Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#motivations">Motivations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#features">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#example-usage-see-the-aoeexamplesa-directory-for-more-details">Example Usage (see the â€œexamplesâ€ directory for more details)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#limitations">Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#api-documentation">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#acknowledgements-and-references">Acknowledgements and References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#author">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#contributors-and-contributor-agreement">Contributors and Contributor Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#how-to-cite-pyhmt2d">How to cite <em>pyHMT2D</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyHMT2D_API.html">pyHMT2D API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../contents.html">pyHMT2D</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../contents.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyHMT2D.Misc.gmsh2d_to_srh</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyHMT2D.Misc.gmsh2d_to_srh</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A tool to convert Gmsh&#39;s 2D MSH file to srhgeom format (to be used by SRH-2D). Optionally, it can interpolate terrain</span>
+<span class="sd">to the 2D mesh. Gmsh&#39;s 2D mesh usually do not have elevation information.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">meshio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+
+<div class="viewcode-block" id="gmsh2d_to_srh">
+<a class="viewcode-back" href="../../../pyHMT2D_API.html#pyHMT2D.Misc.gmsh2d_to_srh">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gmsh2d_to_srh</span><span class="p">(</span><span class="n">gmsh2d_fileName</span><span class="p">,</span> <span class="n">srh_caseName</span><span class="p">,</span> <span class="n">shift_x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">shift_y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;Meters&quot;</span><span class="p">,</span>
+                  <span class="n">bAddMonitoringLines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">monitoringLines</span><span class="o">=</span><span class="p">[],</span> <span class="n">monitoringlineTol</span><span class="o">=</span><span class="mf">0.001</span>
+                  <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert Gmsh 2D mesh into SRH-2D format with the option to add monitoring lines.</span>
+
+<span class="sd">    It generates two files: srhgeom for mesh and srhmat for Manning&#39;s n</span>
+
+<span class="sd">    The srhhydro file has to be generated separately.</span>
+
+<span class="sd">    For monitoring lines: SRH-2D treats the monitoring lines similarly as boundaries. Both are nodeStrings in the srhgeom</span>
+<span class="sd">    file. However, Gmsh2d does not directly support internal boundary such as the monitoring lines. Thus, for any</span>
+<span class="sd">    monitoring line, we need to add it to the nodeStrings list here.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gmsh2d_fileName : str</span>
+<span class="sd">        file name of the Gmsh MSH file</span>
+<span class="sd">    srh_caseName : str</span>
+<span class="sd">        case name for SRH-2D.</span>
+<span class="sd">    shift_x: float</span>
+<span class="sd">        shift of coordinates in x direction</span>
+<span class="sd">    shift_y: float</span>
+<span class="sd">        shift of coordinates in y direction</span>
+<span class="sd">    units : str, default Meters</span>
+<span class="sd">        length units of Gmsh file</span>
+<span class="sd">    bAddMonitoringLines: whether add monitoring lines</span>
+<span class="sd">    monitoringLines: list of monitoring lines. Currently only straightlines are supported.</span>
+<span class="sd">    monitoringlineTol: a float tolerance to check whether a node is close to the monitoring line</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converting Gmsh&#39;s MSH mesh to SRH-2D format ...&quot;</span><span class="p">)</span>
+
+    <span class="c1">#read in the Gmsh MSH with meshio</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">gmsh2d_fileName</span><span class="p">)</span>
+
+    <span class="c1">#output the mesh as vtk for checking</span>
+    <span class="n">mesh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;check_mesh.vtk&quot;</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="s2">&quot;vtk42&quot;</span><span class="p">)</span>
+
+    <span class="c1">#build the nodeStrings (boundaries)</span>
+    <span class="n">nodeStrings</span> <span class="o">=</span> <span class="n">build_nodeStrings</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">bAddMonitoringLines</span><span class="p">,</span><span class="n">monitoringLines</span><span class="p">,</span><span class="n">monitoringlineTol</span><span class="p">)</span>
+
+    <span class="c1">#write srhgeom file</span>
+    <span class="n">write_srhgeom</span><span class="p">(</span><span class="n">srh_caseName</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">nodeStrings</span><span class="p">,</span> <span class="n">shift_x</span><span class="p">,</span> <span class="n">shift_y</span><span class="p">,</span> <span class="n">units</span><span class="p">)</span>
+
+    <span class="c1">#build Manning&#39;s n zone information</span>
+    <span class="n">nManningNZones</span><span class="p">,</span> <span class="n">ManningNZoneNames</span><span class="p">,</span> <span class="n">cellsInManningZones</span> <span class="o">=</span> <span class="n">build_ManningNZones</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+
+    <span class="c1">#write srhmat file</span>
+    <span class="n">write_srhmat</span><span class="p">(</span><span class="n">srh_caseName</span><span class="p">,</span> <span class="n">nManningNZones</span><span class="p">,</span> <span class="n">ManningNZoneNames</span><span class="p">,</span> <span class="n">cellsInManningZones</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finished converting Gmsh&#39;s MSH mesh to SRH-2D format.&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">build_nodeStrings</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">bAddMonitoringLines</span><span class="p">,</span><span class="n">monitoringLines</span><span class="p">,</span><span class="n">monitoringlineTol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the nodeStrings (boundary lines)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mesh : meshio&#39;s mesh</span>
+<span class="sd">        meshio&#39;s mesh object</span>
+<span class="sd">    bAddMonitoringLines: whether there is any monitoring line</span>
+<span class="sd">    monitoringLines: a list for the definitions of monitoring lines (straightlines only for now)</span>
+<span class="sd">    monitoringlineTol: a float tolerance to check whether a node is close to monitoring line.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#get all the lines&#39;s physical group number</span>
+    <span class="n">lines_physical_group_IDs</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cell_data_dict</span><span class="p">[</span><span class="s1">&#39;gmsh:physical&#39;</span><span class="p">][</span><span class="s1">&#39;line&#39;</span><span class="p">]</span>
+
+    <span class="c1">#how many different line boundaries</span>
+    <span class="n">unique_line_physical_group_IDs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">lines_physical_group_IDs</span><span class="p">)</span>
+
+    <span class="c1">#get all lines&#39; nodes (assume there is only one line list. Sure?)</span>
+    <span class="n">lines_nodes</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="c1">#build node strings for each line boundary</span>
+    <span class="n">nodeStrings</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1">#loop through each line group</span>
+    <span class="k">for</span> <span class="n">nodeStringID</span> <span class="ow">in</span> <span class="n">unique_line_physical_group_IDs</span><span class="p">:</span>
+        <span class="c1">#print(&quot;nodeStringID =&quot;, nodeStringID)</span>
+
+        <span class="n">current_node_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1">#loop through each line in lines_physical_group_IDs:</span>
+        <span class="k">for</span> <span class="n">line_group_ID</span><span class="p">,</span> <span class="n">line_ID</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lines_physical_group_IDs</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lines_physical_group_IDs</span><span class="p">))):</span>
+            <span class="c1">#print(&quot;line_group_ID, line_ID =&quot;, line_group_ID, line_ID)</span>
+
+            <span class="k">if</span> <span class="n">nodeStringID</span> <span class="o">==</span> <span class="n">line_group_ID</span><span class="p">:</span>
+                <span class="c1"># add the nodes of line to current_node_list (if they are not in already)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">lines_nodes</span><span class="p">[</span><span class="n">line_ID</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_node_list</span><span class="p">:</span>
+                    <span class="n">current_node_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lines_nodes</span><span class="p">[</span><span class="n">line_ID</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">#+1 because meshio is 0-based; gmsh is 1-based</span>
+
+                <span class="c1">#For a closed loop, one node shows up in the list twice; thus it can repeat. Need to consider this scenario, i.e., </span>
+                <span class="c1">#if the node is already in the list, but not the last one, then we need to add the last one.</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">lines_nodes</span><span class="p">[</span><span class="n">line_ID</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">current_node_list</span> <span class="ow">and</span> <span class="n">current_node_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="p">(</span><span class="n">lines_nodes</span><span class="p">[</span><span class="n">line_ID</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">current_node_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lines_nodes</span><span class="p">[</span><span class="n">line_ID</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">#+1 because meshio is 0-based; gmsh is 1-based</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">lines_nodes</span><span class="p">[</span><span class="n">line_ID</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_node_list</span><span class="p">:</span>
+                    <span class="n">current_node_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lines_nodes</span><span class="p">[</span><span class="n">line_ID</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">#+1 because meshio is 0-based; gmsh is 1-based</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">lines_nodes</span><span class="p">[</span><span class="n">line_ID</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">current_node_list</span> <span class="ow">and</span> <span class="n">current_node_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="p">(</span><span class="n">lines_nodes</span><span class="p">[</span><span class="n">line_ID</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">current_node_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lines_nodes</span><span class="p">[</span><span class="n">line_ID</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">#+1 because meshio is 0-based; gmsh is 1-based</span>
+
+        <span class="c1">#add the nodeString to the nodeStrings dictionary</span>
+        <span class="n">nodeStrings</span><span class="p">[</span><span class="n">nodeStringID</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_node_list</span>
+
+    <span class="c1">#deal with monitoring lines</span>
+    <span class="k">if</span> <span class="n">bAddMonitoringLines</span><span class="p">:</span>
+
+        <span class="c1">#start ID for the monitoring lines</span>
+        <span class="n">nodeStringID</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">unique_line_physical_group_IDs</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1">#get the edge lists. For now, monitoring lines are only defined with internal edges.</span>
+        <span class="n">boundary_edges</span><span class="p">,</span> <span class="n">internal_edges</span> <span class="o">=</span> <span class="n">get_msh_edges</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">monitoringLine</span> <span class="ow">in</span> <span class="n">monitoringLines</span><span class="p">:</span>
+
+            <span class="n">current_node_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="n">xML_start</span> <span class="o">=</span> <span class="n">monitoringLine</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">yML_start</span> <span class="o">=</span> <span class="n">monitoringLine</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">xML_end</span> <span class="o">=</span> <span class="n">monitoringLine</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">yML_end</span> <span class="o">=</span> <span class="n">monitoringLine</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+            <span class="c1">#loop over all internal edges and check whether they are close to the monitoring lines</span>
+            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">internal_edges</span><span class="p">:</span>
+                <span class="n">nodeIDStart</span> <span class="o">=</span> <span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">nodeIDEnd</span> <span class="o">=</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">coordNodeStart</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">nodeIDStart</span><span class="p">]</span>
+                <span class="n">coordNodeEnd</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">nodeIDEnd</span><span class="p">]</span>
+
+                <span class="n">distanceNodeStart</span> <span class="o">=</span> <span class="n">point_to_segment_distance</span><span class="p">(</span><span class="n">coordNodeStart</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coordNodeStart</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                              <span class="n">xML_start</span><span class="p">,</span> <span class="n">yML_start</span><span class="p">,</span>
+                                                              <span class="n">xML_end</span><span class="p">,</span> <span class="n">yML_end</span><span class="p">)</span>
+
+                <span class="n">distanceNodeEnd</span> <span class="o">=</span> <span class="n">point_to_segment_distance</span><span class="p">(</span><span class="n">coordNodeEnd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coordNodeEnd</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                              <span class="n">xML_start</span><span class="p">,</span> <span class="n">yML_start</span><span class="p">,</span>
+                                                              <span class="n">xML_end</span><span class="p">,</span> <span class="n">yML_end</span><span class="p">)</span>
+
+                <span class="c1">#if (distanceNodeStart+distanceNodeEnd)/2 &lt; monitoringlineTol:</span>
+                <span class="k">if</span> <span class="n">distanceNodeStart</span> <span class="o">&lt;</span> <span class="n">monitoringlineTol</span> <span class="ow">and</span> <span class="n">distanceNodeEnd</span> <span class="o">&lt;</span> <span class="n">monitoringlineTol</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">nodeIDStart</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_node_list</span><span class="p">:</span>
+                        <span class="n">current_node_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodeIDStart</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># +1 because meshio is 0-based; gmsh is 1-based</span>
+
+                    <span class="k">if</span> <span class="p">(</span><span class="n">nodeIDEnd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_node_list</span><span class="p">:</span>
+                        <span class="n">current_node_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodeIDEnd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># +1 because meshio is 0-based; gmsh is 1-based</span>
+
+            <span class="c1"># add the nodeString to the nodeStrings dictionary</span>
+            <span class="n">nodeStrings</span><span class="p">[</span><span class="n">nodeStringID</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_node_list</span>
+
+            <span class="n">nodeStringID</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1">#print(type(nodeStrings))</span>
+
+    <span class="k">return</span> <span class="n">nodeStrings</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">point_to_segment_distance</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+    <span class="c1"># Calculate the squared length of the segment</span>
+    <span class="n">segment_len_squared</span> <span class="o">=</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="c1"># Handle the case where the segment length is zero (start and end points are the same)</span>
+    <span class="k">if</span> <span class="n">segment_len_squared</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x0</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y0</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the projection of (x0, y0) onto the line (x1, y1) to (x2, y2)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">((</span><span class="n">x0</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">y0</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="p">))</span> <span class="o">/</span> <span class="n">segment_len_squared</span>
+
+    <span class="c1"># Clamp t to the range [0, 1] to find the closest point on the segment</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
+
+    <span class="c1"># Find the closest point on the segment to (x0, y0)</span>
+    <span class="n">closest_x</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span>
+    <span class="n">closest_y</span> <span class="o">=</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the distance from (x0, y0) to the closest point on the segment</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x0</span> <span class="o">-</span> <span class="n">closest_x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y0</span> <span class="o">-</span> <span class="n">closest_y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">distance</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_msh_edges</span><span class="p">(</span><span class="n">mesh</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the boundary and internal lists of edges.</span>
+
+<span class="sd">    :param mesh:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Initialize edge counter dictionary</span>
+    <span class="n">edge_count</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Process 2D elements (triangles and quadrilaterals)</span>
+    <span class="k">for</span> <span class="n">cell_block</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cell_block</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;triangle&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">triangle</span> <span class="ow">in</span> <span class="n">cell_block</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+                <span class="c1"># Extract triangle edges</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">((</span><span class="n">triangle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">1</span><span class="p">]))),</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">((</span><span class="n">triangle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">2</span><span class="p">]))),</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">((</span><span class="n">triangle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+                <span class="p">]</span>
+                <span class="c1"># Count each edge</span>
+                <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+                    <span class="n">edge_count</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_count</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">elif</span> <span class="n">cell_block</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;quad&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">quad</span> <span class="ow">in</span> <span class="n">cell_block</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+                <span class="c1"># Extract quadrilateral edges</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">((</span><span class="n">quad</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">quad</span><span class="p">[</span><span class="mi">1</span><span class="p">]))),</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">((</span><span class="n">quad</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">quad</span><span class="p">[</span><span class="mi">2</span><span class="p">]))),</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">((</span><span class="n">quad</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">quad</span><span class="p">[</span><span class="mi">3</span><span class="p">]))),</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">((</span><span class="n">quad</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">quad</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+                <span class="p">]</span>
+                <span class="c1"># Count each edge</span>
+                <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+                    <span class="n">edge_count</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_count</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># Separate boundary and internal edges based on their counts</span>
+    <span class="n">boundary_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">edge</span> <span class="k">for</span> <span class="n">edge</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">edge_count</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">internal_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">edge</span> <span class="k">for</span> <span class="n">edge</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">edge_count</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">boundary_edges</span><span class="p">,</span> <span class="n">internal_edges</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">build_ManningNZones</span><span class="p">(</span><span class="n">mesh</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build Manning&#39;s n zones</span>
+
+<span class="sd">    Currently, only one zone is supported. All elements will be in a single zone. In future, it may be</span>
+<span class="sd">    possible to use Gmsh with multiple physical zones.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mesh : meshio&#39;s mesh</span>
+<span class="sd">        meshio&#39;s mesh object</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="c1">#Only one Manning&#39;s n zone is supported currently.</span>
+    <span class="n">nManningNZones</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">ManningNZoneNames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;channel&#39;</span><span class="p">]</span>
+
+    <span class="n">cellsInManningZones</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># all cells</span>
+    <span class="n">cellCounter</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">cells_blockI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">)):</span>
+        <span class="c1"># don&#39;t need the lines</span>
+        <span class="k">if</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;line&#39;</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># triangles</span>
+        <span class="k">elif</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;triangle&#39;</span><span class="p">:</span>
+            <span class="c1"># loop over all triangles</span>
+            <span class="k">for</span> <span class="n">triI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">cellCounter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># quads</span>
+        <span class="k">elif</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;quad&#39;</span><span class="p">:</span>
+            <span class="c1"># loop over all triangles</span>
+            <span class="k">for</span> <span class="n">quadI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">cellCounter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Gmesh element type is not supported.&quot;</span><span class="p">)</span>
+
+    <span class="n">cellID_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">cellI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cellCounter</span><span class="p">):</span>
+        <span class="n">cellID_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cellI</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">#+1 because SRH-2D is 1-based</span>
+
+    <span class="n">cellsInManningZones</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">cellID_list</span>
+
+    <span class="k">return</span> <span class="n">nManningNZones</span><span class="p">,</span> <span class="n">ManningNZoneNames</span><span class="p">,</span> <span class="n">cellsInManningZones</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">orientation_2D</span><span class="p">(</span><span class="n">xA</span><span class="p">,</span> <span class="n">yA</span><span class="p">,</span> <span class="n">xB</span><span class="p">,</span> <span class="n">yB</span><span class="p">,</span> <span class="n">xC</span><span class="p">,</span> <span class="n">yC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the orientation of the order of three points A, B, and C in 2D.</span>
+
+<span class="sd">    Ref: https://en.wikipedia.org/wiki/Curve_orientation</span>
+
+<span class="sd">    :param xA:</span>
+<span class="sd">    :param yA:</span>
+<span class="sd">    :param xB:</span>
+<span class="sd">    :param yB:</span>
+<span class="sd">    :param xC:</span>
+<span class="sd">    :param yC:</span>
+<span class="sd">    :return: &lt; 0: clockwise, &gt;0: counter clockwise</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#construct the square matrix</span>
+    <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">xA</span><span class="p">,</span> <span class="n">yA</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span> <span class="n">xB</span><span class="p">,</span> <span class="n">yB</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span> <span class="n">xC</span><span class="p">,</span> <span class="n">yC</span><span class="p">]</span> <span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">write_srhgeom</span><span class="p">(</span><span class="n">srhmatFileName</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">nodeStrings</span><span class="p">,</span> <span class="n">shift_x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">shift_y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;Meters&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    srhmatFileName</span>
+<span class="sd">    mesh</span>
+<span class="sd">    nodeStrings</span>
+<span class="sd">    units</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">srhmatFileName</span> <span class="o">+</span> <span class="s2">&quot;.srhgeom&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">fid</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;.srhgeom error&#39;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+    <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;SRHGEOM 30</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Name </span><span class="se">\&quot;</span><span class="s1">Converted from Gmsh 2D Mesh </span><span class="se">\&quot;\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;GridUnit </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">units</span><span class="p">)</span>
+
+    <span class="c1"># all cells</span>
+
+    <span class="n">cellI</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">cells_blockI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">)):</span>
+        <span class="c1">#don&#39;t need the lines</span>
+        <span class="k">if</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;line&#39;</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1">#triangles</span>
+        <span class="k">elif</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;triangle&#39;</span><span class="p">:</span>
+            <span class="c1">#loop over all triangles</span>
+            <span class="k">for</span> <span class="n">triI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">cellI</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="c1">#determine the orientation of the triangle</span>
+                <span class="n">xA</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">yA</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">xB</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">yB</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">xC</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">yC</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">sign</span> <span class="o">=</span> <span class="n">orientation_2D</span><span class="p">(</span><span class="n">xA</span><span class="p">,</span> <span class="n">yA</span><span class="p">,</span> <span class="n">xB</span><span class="p">,</span> <span class="n">yB</span><span class="p">,</span> <span class="n">xC</span><span class="p">,</span> <span class="n">yC</span><span class="p">)</span>
+
+                <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Elem &quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">sign</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="c1">#nodes in counterclockwise direction</span>
+                    <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cellI</span><span class="p">,</span>
+                                              <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                                              <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                                              <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+                                              <span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>        <span class="c1">#nodes in clockwise direction; need to revise the order</span>
+                    <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cellI</span><span class="p">,</span>
+                                                  <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                                  <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                                  <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">triI</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+                                                  <span class="p">))</span>
+
+
+        <span class="c1">#quads</span>
+        <span class="k">elif</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;quad&#39;</span><span class="p">:</span>
+            <span class="c1"># loop over all triangles</span>
+            <span class="k">for</span> <span class="n">quadI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">cellI</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="c1"># determine the orientation of the quad (only need to use the first three nodes)</span>
+                <span class="n">xA</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">yA</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">xB</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">yB</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">xC</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">yC</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">sign</span> <span class="o">=</span> <span class="n">orientation_2D</span><span class="p">(</span><span class="n">xA</span><span class="p">,</span> <span class="n">yA</span><span class="p">,</span> <span class="n">xB</span><span class="p">,</span> <span class="n">yB</span><span class="p">,</span> <span class="n">xC</span><span class="p">,</span> <span class="n">yC</span><span class="p">)</span>
+
+                <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Elem &quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">sign</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># nodes in counterclockwise direction</span>
+                    <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cellI</span><span class="p">,</span>
+                                              <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                                              <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                                              <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                                              <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+                                              <span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># nodes in clockwise direction; need to revise the order</span>
+                    <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cellI</span><span class="p">,</span>
+                                                    <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                                    <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                                    <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                                    <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">[</span><span class="n">cells_blockI</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">quadI</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+                                                    <span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Gmesh element type is not supported.&quot;</span><span class="p">)</span>
+
+
+    <span class="c1"># all points</span>
+    <span class="k">for</span> <span class="n">pointI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Node </span><span class="si">%d</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pointI</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># pointI+1 because SRH-2D is 1-based</span>
+        <span class="n">curr_point_coordinates</span> <span class="o">=</span> <span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">pointI</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">shift_x</span><span class="p">,</span>
+                                  <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">pointI</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">shift_y</span><span class="p">,</span>
+                                  <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">pointI</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">curr_point_coordinates</span><span class="p">)))</span>
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># NodeString</span>
+    <span class="n">boundary_id</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># boundary ID counter (not the ID used in Gmsh)</span>
+
+
+
+    <span class="c1"># loop through all boundaries</span>
+    <span class="k">for</span> <span class="n">nodeStringID</span><span class="p">,</span> <span class="n">node_list</span> <span class="ow">in</span> <span class="n">nodeStrings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">boundary_id</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;NodeString </span><span class="si">%d</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="n">boundary_id</span><span class="p">)</span>
+
+        <span class="c1"># line break counter (start a new line every 10 nodes)</span>
+        <span class="n">line_break_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># loop over each node ID in the current NodeString</span>
+        <span class="k">for</span> <span class="n">nodeID</span> <span class="ow">in</span> <span class="n">node_list</span><span class="p">:</span>
+
+            <span class="n">line_break_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nodeID</span><span class="p">))</span>
+
+            <span class="c1"># 10 numbers per line</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">line_break_counter</span> <span class="o">%</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+
+                <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">line_break_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">fid</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">write_srhmat</span><span class="p">(</span><span class="n">srhmatFileName</span><span class="p">,</span> <span class="n">nManningNZones</span><span class="p">,</span> <span class="n">ManningNZoneNames</span><span class="p">,</span> <span class="n">cellsInManningZones</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Export the SRHMAT file</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            srhmatFileName : str</span>
+<span class="sd">                name of the srhmat file to write to</span>
+<span class="sd">            mesh:</span>
+<span class="sd">                meshio object</span>
+<span class="sd">            nManningNZones: int</span>
+<span class="sd">                number of Manning&#39;s n zones</span>
+<span class="sd">            ManningNZoneNames: list</span>
+<span class="sd">                list of Manning&#39;s n zone names</span>
+<span class="sd">            cellsInManningZones: dict</span>
+<span class="sd">                cells in each Manning&#39;s n zones</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">srhmatFileName</span> <span class="o">+</span> <span class="s1">&#39;.srhmat&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">fid</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;.srhmat error&#39;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+    <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;SRHMAT 30</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;NMaterials </span><span class="si">%d</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">nManningNZones</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># +1 is because SRH-2D also counts the default Manning&#39;s n in srhhydro file.</span>
+
+    <span class="c1"># output MatName</span>
+    <span class="k">for</span> <span class="n">matID</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nManningNZones</span><span class="p">):</span>
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;MatName </span><span class="si">%d</span><span class="s1"> </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">matID</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ManningNZoneNames</span><span class="p">[</span><span class="n">matID</span><span class="p">]))</span>  <span class="c1"># +1 because SRH-2D is 1-based</span>
+
+    <span class="c1"># output cells in different material categories</span>
+    <span class="k">for</span> <span class="n">matID</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nManningNZones</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cellsInManningZones</span><span class="p">[</span><span class="n">matID</span><span class="p">]:</span>  <span class="c1"># this Manning&#39;s n zone has no cells</span>
+            <span class="k">continue</span>
+
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Material </span><span class="si">%d</span><span class="s1"> &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">matID</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># loop over all cells in current Manning&#39;s n zone</span>
+        <span class="k">for</span> <span class="n">cellI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cellsInManningZones</span><span class="p">[</span><span class="n">matID</span><span class="p">])):</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cellsInManningZones</span><span class="p">[</span><span class="n">matID</span><span class="p">][</span><span class="n">cellI</span><span class="p">]))</span>
+
+            <span class="c1"># 10 numbers per line or this is the last cell, start a new line</span>
+            <span class="k">if</span> <span class="p">(((</span><span class="n">cellI</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">cellI</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cellsInManningZones</span><span class="p">[</span><span class="n">matID</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
+                <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">fid</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2026, Xiaofeng Liu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

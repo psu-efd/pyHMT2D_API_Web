@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyHMT2D.Hydraulic_Models_Data.Backwater_1D.Backwater_1D_Model &mdash; pyHMT2D 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d75fae25" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=74cb3bac" />
+
+  
+      <script src="../../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../contents.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html"><em>pyHMT2D</em> - Python-based Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#supported-platform">Supported Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#motivations">Motivations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#features">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#example-usage-see-the-aoeexamplesa-directory-for-more-details">Example Usage (see the â€œexamplesâ€ directory for more details)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#limitations">Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#api-documentation">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#acknowledgements-and-references">Acknowledgements and References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#author">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#contributors-and-contributor-agreement">Contributors and Contributor Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#how-to-cite-pyhmt2d">How to cite <em>pyHMT2D</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyHMT2D_API.html">pyHMT2D API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../contents.html">pyHMT2D</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../contents.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyHMT2D.Hydraulic_Models_Data.Backwater_1D.Backwater_1D_Model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyHMT2D.Hydraulic_Models_Data.Backwater_1D.Backwater_1D_Model</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.Hydraulic_Models_Data</span><span class="w"> </span><span class="kn">import</span> <span class="n">HydraulicModel</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.__common__</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="Backwater_1D_Model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Model">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Backwater_1D_Model</span><span class="p">(</span><span class="n">HydraulicModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple 1D backwater curve model .</span>
+
+<span class="sd">    This model only works for subcritical flows!!! It does not work critical flows or transcritical flows.</span>
+
+
+<span class="sd">    Attributes:</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;SRH_2D_Model constructor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">HydraulicModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Backwater-1D&quot;</span><span class="p">,</span> <span class="s2">&quot;1.0&quot;</span><span class="p">)</span>
+
+        <span class="c1">#Backwater-1D case data (an object of Backater_1D_Data)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#initialize the model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_model</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="Backwater_1D_Model.init_model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Model.init_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Backwater-1D model</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initializing Backwater-1D ...&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Backwater_1D_Model.set_simulation_case">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Model.set_simulation_case">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_simulation_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backwater_1d_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the simulation case to backwater_1D_data (if it has been created already)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        backwater_1d_data : Backwater_1D_Data</span>
+<span class="sd">            an object from class Backwater_1D_Data, which should be created before calling</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span> <span class="o">=</span> <span class="n">backwater_1d_data</span></div>
+
+
+<div class="viewcode-block" id="Backwater_1D_Model.get_simulation_case">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Model.get_simulation_case">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_simulation_case</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the simulation case</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Simulation case, i.e.,, the Backwater_1D_Data object, has not been set yet. Exiting ...&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span></div>
+
+
+<div class="viewcode-block" id="Backwater_1D_Model.run_model">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Model.run_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the Backwater-1D model</span>
+
+<span class="sd">        It will run the current Backwater-1D case.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running Backwater-1D ...&quot;</span><span class="p">)</span>
+
+        <span class="c1">#check whether the case has been set up</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Backwater-1D case has not been setup yet. Call set_simulation_case(...) first. Exiting ...&quot;</span><span class="p">)</span>
+
+        <span class="c1">#solve the GVF ODE equation and save the results back into self._backwater_1d_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">normalDepth</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">criticalDepth</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">gridx</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">waterDepth</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">WSE</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">gridManningN</span> <span class="o">=</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_ocf_1D_backwater_curve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">slope</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">ManningNFunc</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">startx</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">startH</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">startZ</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">riverLength</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">nGrid</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">specificDischarge</span>
+                                                 <span class="p">)</span></div>
+
+
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ocf_1D_backwater_curve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">ManningNFunc</span><span class="p">,</span> <span class="n">startx</span><span class="p">,</span> <span class="n">startH</span><span class="p">,</span> <span class="n">startZ</span><span class="p">,</span>
+                                <span class="n">riverLength</span><span class="p">,</span> <span class="n">nGrid</span><span class="p">,</span> <span class="n">specificDischarge</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Open channel flow: 1D backwater curve in a wide, rectangular channel</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        slope : float</span>
+<span class="sd">            slope of channel</span>
+<span class="sd">        ManningNFunc : interp1d</span>
+<span class="sd">            Interpolation function for Manning&#39;s n</span>
+<span class="sd">        startx : float</span>
+<span class="sd">            starting x coordinate</span>
+<span class="sd">        startH : float</span>
+<span class="sd">            starting water depth H</span>
+<span class="sd">        startZ : float</span>
+<span class="sd">            starting bottom elevation</span>
+<span class="sd">        riverLength : float</span>
+<span class="sd">            length of river</span>
+<span class="sd">        nGrid : int</span>
+<span class="sd">            number of grid to be used</span>
+<span class="sd">        specificDischarge : float</span>
+<span class="sd">            specific discharge (discharge per unit width)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        normalDepth : float</span>
+<span class="sd">            normal depth (only makes sense for uniform Manning&#39;s n)</span>
+<span class="sd">        criticalDepth: float</span>
+<span class="sd">            critical depth (only makes sense for uniform Manning&#39;s n)</span>
+<span class="sd">        xcoords : numpy array</span>
+<span class="sd">            x coordinates of the backwater curve profile</span>
+<span class="sd">        waterDepth : numpy array</span>
+<span class="sd">            water depth along the backwater curve profile</span>
+<span class="sd">        WSE : numpy array</span>
+<span class="sd">            water surface elevation (waterDepth + bottom elevation)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># normal flow depth (only makes sense for uniform Manning&#39;s n value;</span>
+        <span class="c1"># here we use the Manning&#39;s n at x = startx as a constant)</span>
+        <span class="n">const_ManningN</span> <span class="o">=</span> <span class="n">ManningNFunc</span><span class="p">(</span><span class="n">startx</span><span class="p">)</span>
+        <span class="n">normalDepth</span> <span class="o">=</span> <span class="p">(</span><span class="n">const_ManningN</span> <span class="o">*</span> <span class="n">specificDischarge</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">slope</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">/</span> <span class="mf">5.0</span><span class="p">)</span>
+
+        <span class="c1"># critical flow depth</span>
+        <span class="n">criticalDepth</span> <span class="o">=</span> <span class="p">(</span><span class="n">specificDischarge</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mf">9.81</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span>
+
+        <span class="c1">#print(&quot;Hn, Hc = &quot;, normalDepth, criticalDepth)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">startx</span><span class="p">,</span> <span class="n">startx</span> <span class="o">+</span> <span class="n">riverLength</span><span class="p">,</span> <span class="n">nGrid</span><span class="p">)</span>
+
+        <span class="c1">#calculate Manning&#39;s n at grid points</span>
+        <span class="n">ManningN</span> <span class="o">=</span> <span class="n">ManningNFunc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1">#units system factor</span>
+        <span class="n">Kn</span> <span class="o">=</span> <span class="mf">1.486</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backwater_1d_data</span><span class="o">.</span><span class="n">units</span> <span class="o">==</span> <span class="s2">&quot;EN&quot;</span> <span class="k">else</span> <span class="mf">1.0</span>
+
+        <span class="n">waterDepth</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">odeint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_F_H_backwater_curve</span><span class="p">,</span> <span class="n">startH</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">Kn</span><span class="p">,</span> <span class="n">ManningNFunc</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">specificDischarge</span><span class="p">))</span>
+        <span class="n">waterDepth</span> <span class="o">=</span> <span class="n">waterDepth</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># convert the returned 2D array to a 1D array</span>
+
+        <span class="c1"># negate the x-coordinate (go from downstream to upstream)</span>
+        <span class="c1"># negX = -x</span>
+
+        <span class="c1"># water surface elevation</span>
+        <span class="n">WSE</span> <span class="o">=</span> <span class="n">waterDepth</span> <span class="o">+</span> <span class="n">startZ</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">startx</span><span class="p">)</span> <span class="o">*</span> <span class="n">slope</span>
+
+        <span class="k">return</span> <span class="n">normalDepth</span><span class="p">,</span> <span class="n">criticalDepth</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">waterDepth</span><span class="p">,</span> <span class="n">WSE</span><span class="p">,</span> <span class="n">ManningN</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_F_H_backwater_curve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Kn</span><span class="p">,</span> <span class="n">ManningNFunc</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">qw</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; F(H) function for the backwater curve equation (the right hand side)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        H: water depth</span>
+<span class="sd">        x: x coordinate</span>
+<span class="sd">        Kn: units system factor (1.486 for EN, 1.0 for SI)</span>
+<span class="sd">        ManningNFunc: Interpolation function for Manning&#39;s n</span>
+<span class="sd">        S: channel slope</span>
+<span class="sd">        qw: specific discharge</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        F(H)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">S</span> <span class="o">-</span> <span class="n">qw</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">ManningNFunc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">Kn</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mf">10.0</span> <span class="o">/</span> <span class="mi">3</span><span class="p">))</span> <span class="o">/</span> \
+               <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">qw</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mf">9.81</span> <span class="o">/</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2026, Xiaofeng Liu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

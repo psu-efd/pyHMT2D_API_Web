@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyHMT2D.Hydraulic_Models_Data.Backwater_1D.Backwater_1D_Data &mdash; pyHMT2D 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d75fae25" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=74cb3bac" />
+
+  
+      <script src="../../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../contents.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html"><em>pyHMT2D</em> - Python-based Hydraulic Modeling Tools - 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#supported-platform">Supported Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#motivations">Motivations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#features">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#example-usage-see-the-aoeexamplesa-directory-for-more-details">Example Usage (see the â€œexamplesâ€ directory for more details)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#limitations">Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#api-documentation">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#acknowledgements-and-references">Acknowledgements and References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#author">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#contributors-and-contributor-agreement">Contributors and Contributor Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html#how-to-cite-pyhmt2d">How to cite <em>pyHMT2D</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyHMT2D_API.html">pyHMT2D API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../contents.html">pyHMT2D</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../contents.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyHMT2D.Hydraulic_Models_Data.Backwater_1D.Backwater_1D_Data</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyHMT2D.Hydraulic_Models_Data.Backwater_1D.Backwater_1D_Data</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">vtk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">vtk.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_support</span> <span class="k">as</span> <span class="n">VN</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">interpolate</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.Hydraulic_Models_Data</span><span class="w"> </span><span class="kn">import</span> <span class="n">HydraulicData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.Misc.vtk_utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">vtkHandler</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyHMT2D.__common__</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="Backwater_1D_Data">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Data">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Backwater_1D_Data</span><span class="p">(</span><span class="n">HydraulicData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for Backwater-1D data I/O, manipulation, and format conversion</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_json_file_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backwater_1D_Data class constructor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        config_json_file_name : str</span>
+<span class="sd">            name of the JSON configuration file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">HydraulicData</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Backwater-1D&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_json_file_name</span> <span class="o">=</span> <span class="n">config_json_file_name</span>
+
+        <span class="c1">#dictionary to hold information from the configuration JSON file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1">#case set up parameters (read in from configuration JSON file)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">case_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>     <span class="c1">#case name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>         <span class="c1">#units: SI or EN</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startx</span> <span class="o">=</span> <span class="mf">0.0</span>       <span class="c1">#start point x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startH</span> <span class="o">=</span> <span class="mf">0.0</span>       <span class="c1">#start water depth H</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startZ</span> <span class="o">=</span> <span class="mf">0.0</span>       <span class="c1">#start bed elevation Z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">riverLength</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1">#total river length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slope</span> <span class="o">=</span> <span class="mf">0.0</span>        <span class="c1">#river slope</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ManningNZones</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">#dictionary to hold Manning&#39;s n zone information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nGrid</span> <span class="o">=</span> <span class="mi">1</span>          <span class="c1">#number of grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">specificDischarge</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1">#specific discharge</span>
+
+        <span class="c1">#load configuration data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_configuration_data</span><span class="p">()</span>
+
+        <span class="c1">#Manning&#39;s n interpolator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ManningNFunc</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#build Manning&#39;s n interpolator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_ManningNFunc</span><span class="p">()</span>
+
+        <span class="c1">#result block</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalDepth</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">criticalDepth</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridx</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waterDepth</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">WSE</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridManningN</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Backwater_1D_Data.load_configuration_data">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Data.load_configuration_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_configuration_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load only the configuration data (not result) from the JSON file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Load Backwater-1D model configuration from file&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json_file_name</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json_file_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1">#print(self.configuration)</span>
+
+        <span class="c1">#print some information about the calibration configuration</span>
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Configuration for the Backwater-1D model:&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">],</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">case_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">][</span><span class="s2">&quot;case_name&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">][</span><span class="s2">&quot;units&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">][</span><span class="s2">&quot;startx&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startH</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">][</span><span class="s2">&quot;startH&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startZ</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">][</span><span class="s2">&quot;startZ&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">riverLength</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">][</span><span class="s2">&quot;riverLength&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">][</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ManningNZones</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">][</span><span class="s2">&quot;ManningNZones&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nGrid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">][</span><span class="s2">&quot;nGrid&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">specificDischarge</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;Backwater-1D&quot;</span><span class="p">][</span><span class="s2">&quot;specificDischarge&quot;</span><span class="p">]</span>
+
+        <span class="c1"># build the Manning&#39;s n interpolation function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_ManningNFunc</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Backwater_1D_Data.build_ManningNFunc">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Data.build_ManningNFunc">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_ManningNFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Define the Manning&#39;s n interpolation function based on the Manning&#39;s n zone information</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># create the lists of x and Manning&#39;s n value</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ManningN</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># loop over Manning&#39;s N zones</span>
+        <span class="k">for</span> <span class="n">ManningNZone</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ManningNZones</span><span class="p">:</span>
+            <span class="c1">#check if the x coordinate is already in the list. Make sure</span>
+            <span class="c1">#the zones are defined with some small gap in between.</span>
+            <span class="k">if</span> <span class="n">ManningNZone</span><span class="p">[</span><span class="s2">&quot;startx&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="n">ManningNZone</span><span class="p">[</span><span class="s2">&quot;endx&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;startx and endx of Manning&#39;s zones should not overlap. Leave a small gap&quot;</span>
+                                <span class="s2">&quot;between different zones so the interpolation works properly. Exiting ...&quot;</span><span class="p">)</span>
+
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ManningNZone</span><span class="p">[</span><span class="s2">&quot;startx&quot;</span><span class="p">])</span>
+            <span class="n">ManningN</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ManningNZone</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">])</span>
+
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ManningNZone</span><span class="p">[</span><span class="s2">&quot;endx&quot;</span><span class="p">])</span>
+            <span class="n">ManningN</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ManningNZone</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ManningNFunc</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ManningN</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;extrapolate&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Backwater_1D_Data.write_configuration_data_to_JSON">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Data.write_configuration_data_to_JSON">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_configuration_data_to_JSON</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_file_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write the configuration data only (not result) to JSON file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            json_file_name : str</span>
+<span class="sd">                name of the JSON file to write to</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_file_name</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">,</span> <span class="n">json_file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Backwater_1D_Data.modify_ManningsN">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Data.modify_ManningsN">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modify_ManningsN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">materialIDs</span><span class="p">,</span> <span class="n">newManningsNValues</span><span class="p">,</span> <span class="n">materialNames</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Modify materialID&#39;s Manning&#39;s n value to new value</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        materialIDs : list</span>
+<span class="sd">            material ID list</span>
+<span class="sd">        newManningsNValues : list</span>
+<span class="sd">            new Manning&#39;s n value list</span>
+<span class="sd">        ManningN_MaterialNames : list</span>
+<span class="sd">            name of materials list</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Modify Manning&#39;s n value ...&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">materialIDs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Material ID has to be an integer. The type of materialID passed in is &quot;</span><span class="p">,</span>
+                            <span class="nb">type</span><span class="p">(</span><span class="n">materialIDs</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">newManningsNValues</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Manning&#39;s n has to be a float. The type of newManningsNValue passed in is &quot;</span><span class="p">,</span>
+                            <span class="nb">type</span><span class="p">(</span><span class="n">newManningsNValues</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">materialIDs</span><span class="p">)):</span>
+            <span class="n">materialID</span> <span class="o">=</span> <span class="n">materialIDs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="n">bFound</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># loop through all ManningNZones to find the materialID</span>
+            <span class="k">for</span> <span class="n">zoneI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ManningNZones</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">materialID</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ManningNZones</span><span class="p">[</span><span class="n">zoneI</span><span class="p">][</span><span class="s2">&quot;materialID&quot;</span><span class="p">]:</span>
+                    <span class="n">bFound</span> <span class="o">=</span> <span class="kc">True</span>
+
+                    <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    Old Manning&#39;s n value =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ManningNZones</span><span class="p">[</span><span class="n">zoneI</span><span class="p">][</span><span class="s2">&quot;n&quot;</span><span class="p">],</span>
+                                       <span class="s2">&quot;for material ID = &quot;</span><span class="p">,</span>
+                                       <span class="n">materialID</span><span class="p">,</span> <span class="s2">&quot;zone name = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ManningNZones</span><span class="p">[</span><span class="n">zoneI</span><span class="p">][</span><span class="s2">&quot;material_name&quot;</span><span class="p">])</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ManningNZones</span><span class="p">[</span><span class="n">zoneI</span><span class="p">][</span><span class="s2">&quot;n&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">newManningsNValues</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+                    <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    New Manning&#39;s n value =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ManningNZones</span><span class="p">[</span><span class="n">zoneI</span><span class="p">][</span><span class="s2">&quot;n&quot;</span><span class="p">],</span>
+                                       <span class="s2">&quot;for material ID = &quot;</span><span class="p">,</span>
+                                       <span class="n">materialID</span><span class="p">,</span> <span class="s2">&quot;zone name = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ManningNZones</span><span class="p">[</span><span class="n">zoneI</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+
+            <span class="c1"># if didn&#39;t find the specified materialID, something is wrong</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">bFound</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The specified materialID&quot;</span><span class="p">,</span> <span class="n">materialID</span><span class="p">,</span> <span class="s2">&quot;is not in the Manning&#39;s n list. &quot;</span>
+                            <span class="s2">&quot;Please check both material ID and material name, and make sure they are consistent.&quot;</span><span class="p">)</span>
+
+        <span class="c1">#update the Manning&#39;s n interpolator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_ManningNFunc</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Backwater_1D_Data.outputResultToVTK">
+<a class="viewcode-back" href="../../../../pyHMT2D_API.html#pyHMT2D.Backwater_1D.Backwater_1D_Data.outputResultToVTK">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outputResultToVTK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output result data to vtkUnstructuredGrid</span>
+
+<span class="sd">        This has to be called after the result has been obtained by running the model</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            dir : str, optional</span>
+<span class="sd">                directory to write to</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        vtkFileName : str</span>
+<span class="sd">            name of the output vTK file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output result data to VTK ...&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waterDepth</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Empty solution arrays. Run the model first. Exiting ...&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="n">vtkFileName</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="nb">dir</span><span class="o">!=</span><span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">vtkFileName</span> <span class="o">=</span> <span class="nb">dir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="s1">&#39;Backwater1D_&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">case_name</span> <span class="o">+</span> <span class="s1">&#39;.vtk&#39;</span> <span class="c1">#use the case name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vtkFileName</span> <span class="o">=</span> <span class="s1">&#39;Backwater1D_&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">case_name</span> <span class="o">+</span> <span class="s1">&#39;.vtk&#39;</span>
+        <span class="k">if</span> <span class="n">gVerbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vtkFileName = &quot;</span><span class="p">,</span> <span class="n">vtkFileName</span><span class="p">)</span>
+
+        <span class="c1">#build result variable names</span>
+        <span class="n">resultVarNames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">==</span> <span class="s2">&quot;SI&quot;</span><span class="p">:</span>
+            <span class="n">resultVarNames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Water_Elev_m&quot;</span><span class="p">,</span><span class="s2">&quot;Velocity_m_p_s&quot;</span><span class="p">,</span><span class="s2">&quot;ManningN&quot;</span><span class="p">,</span><span class="s2">&quot;Bed_Elev_m&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">==</span> <span class="s2">&quot;EN&quot;</span><span class="p">:</span>
+            <span class="n">resultVarNames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Water_Elev_ft&quot;</span><span class="p">,</span> <span class="s2">&quot;Velocity_ft_p_s&quot;</span><span class="p">,</span><span class="s2">&quot;ManningN&quot;</span><span class="p">,</span><span class="s2">&quot;Bed_Elev_ft&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Units system is not set.&quot;</span><span class="p">)</span>
+
+        <span class="c1">#print(&quot;All nodal solution variable names: &quot;, resultVarNames)</span>
+
+        <span class="c1"># numpy array for all solution variables (except velocity)</span>
+        <span class="n">resultData</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nGrid</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">resultVarNames</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+        <span class="c1"># numpy array for velocity</span>
+        <span class="n">resultVelocity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nGrid</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+        <span class="c1">#add WSE</span>
+        <span class="n">resultData</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WSE</span>
+
+        <span class="c1">#add Velocity</span>
+        <span class="n">resultVelocity</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">specificDischarge</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">waterDepth</span>
+        <span class="n">resultVelocity</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">resultVelocity</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="c1">#add ManningN</span>
+        <span class="n">resultData</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridManningN</span>
+
+        <span class="c1">#add bed elevation</span>
+        <span class="n">resultData</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WSE</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">waterDepth</span>
+
+        <span class="c1"># build VTK object:</span>
+        <span class="c1"># points</span>
+        <span class="n">pointsVTK</span> <span class="o">=</span> <span class="n">vtk</span><span class="o">.</span><span class="n">vtkPoints</span><span class="p">()</span>
+
+        <span class="n">gridCordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nGrid</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">gridI</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nGrid</span><span class="p">):</span>
+            <span class="n">gridCordinates</span><span class="p">[</span><span class="n">gridI</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridx</span><span class="p">[</span><span class="n">gridI</span><span class="p">]</span>
+            <span class="n">gridCordinates</span><span class="p">[</span><span class="n">gridI</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">gridCordinates</span><span class="p">[</span><span class="n">gridI</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">WSE</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">waterDepth</span><span class="p">)[</span><span class="n">gridI</span><span class="p">]</span>
+
+        <span class="n">pointsVTK</span><span class="o">.</span><span class="n">SetData</span><span class="p">(</span><span class="n">VN</span><span class="o">.</span><span class="n">numpy_to_vtk</span><span class="p">(</span><span class="n">gridCordinates</span><span class="p">))</span>
+
+        <span class="c1"># cell topology information list: [num. of nodes, node0, node1, .., num. of nodes, nodexxx]</span>
+        <span class="c1"># the list start with the number of nodes for a cell and then the list of node indexes</span>
+        <span class="n">connectivity_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># type of cells (contains the number of points)</span>
+        <span class="n">cellFPCounts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nGrid</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+        <span class="c1"># loop over all elements (lines)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nGrid</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">connectivity_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">#VTK_LINE</span>
+
+            <span class="n">connectivity_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">connectivity_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">cellFPCounts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="n">connectivity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">connectivity_list</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+        <span class="c1"># convert cell&#39;s number of face points to VTK cell type</span>
+        <span class="n">vtkHandler_obj</span> <span class="o">=</span> <span class="n">vtkHandler</span><span class="p">()</span>
+        <span class="n">cell_types</span> <span class="o">=</span> <span class="n">vtkHandler_obj</span><span class="o">.</span><span class="n">number_of_nodes_to_vtk_celltypes</span><span class="p">(</span><span class="n">cellFPCounts</span><span class="p">)</span>
+
+        <span class="n">cellsVTK</span> <span class="o">=</span> <span class="n">vtk</span><span class="o">.</span><span class="n">vtkCellArray</span><span class="p">()</span>
+        <span class="n">cellsVTK</span><span class="o">.</span><span class="n">SetCells</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nGrid</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">VN</span><span class="o">.</span><span class="n">numpy_to_vtkIdTypeArray</span><span class="p">(</span><span class="n">connectivity</span><span class="p">))</span>
+
+        <span class="n">uGrid</span> <span class="o">=</span> <span class="n">vtk</span><span class="o">.</span><span class="n">vtkUnstructuredGrid</span><span class="p">()</span>
+        <span class="n">uGrid</span><span class="o">.</span><span class="n">SetPoints</span><span class="p">(</span><span class="n">pointsVTK</span><span class="p">)</span>
+        <span class="n">uGrid</span><span class="o">.</span><span class="n">SetCells</span><span class="p">(</span><span class="n">cell_types</span><span class="p">,</span> <span class="n">cellsVTK</span><span class="p">)</span>
+
+        <span class="n">point_data</span> <span class="o">=</span> <span class="n">uGrid</span><span class="o">.</span><span class="n">GetPointData</span><span class="p">()</span>  <span class="c1"># This holds point data</span>
+
+        <span class="c1"># add WSE</span>
+        <span class="n">temp_point_data_array</span> <span class="o">=</span> <span class="n">VN</span><span class="o">.</span><span class="n">numpy_to_vtk</span><span class="p">(</span><span class="n">resultData</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">temp_point_data_array</span><span class="o">.</span><span class="n">SetName</span><span class="p">(</span><span class="n">resultVarNames</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">point_data</span><span class="o">.</span><span class="n">AddArray</span><span class="p">(</span><span class="n">temp_point_data_array</span><span class="p">)</span>
+
+        <span class="c1"># add velocity</span>
+        <span class="n">temp_point_data_array</span> <span class="o">=</span> <span class="n">VN</span><span class="o">.</span><span class="n">numpy_to_vtk</span><span class="p">(</span><span class="n">resultVelocity</span><span class="p">)</span>
+        <span class="n">temp_point_data_array</span><span class="o">.</span><span class="n">SetName</span><span class="p">(</span><span class="n">resultVarNames</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">point_data</span><span class="o">.</span><span class="n">AddArray</span><span class="p">(</span><span class="n">temp_point_data_array</span><span class="p">)</span>
+
+        <span class="c1"># add ManningN</span>
+        <span class="n">temp_point_data_array</span> <span class="o">=</span> <span class="n">VN</span><span class="o">.</span><span class="n">numpy_to_vtk</span><span class="p">(</span><span class="n">resultData</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">temp_point_data_array</span><span class="o">.</span><span class="n">SetName</span><span class="p">(</span><span class="n">resultVarNames</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">point_data</span><span class="o">.</span><span class="n">AddArray</span><span class="p">(</span><span class="n">temp_point_data_array</span><span class="p">)</span>
+
+        <span class="c1"># add bed elevation</span>
+        <span class="n">temp_point_data_array</span> <span class="o">=</span> <span class="n">VN</span><span class="o">.</span><span class="n">numpy_to_vtk</span><span class="p">(</span><span class="n">resultData</span><span class="p">[:,</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">temp_point_data_array</span><span class="o">.</span><span class="n">SetName</span><span class="p">(</span><span class="n">resultVarNames</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">point_data</span><span class="o">.</span><span class="n">AddArray</span><span class="p">(</span><span class="n">temp_point_data_array</span><span class="p">)</span>
+
+
+        <span class="c1"># write to vtk file</span>
+        <span class="n">unstr_writer</span> <span class="o">=</span> <span class="n">vtk</span><span class="o">.</span><span class="n">vtkUnstructuredGridWriter</span><span class="p">()</span>
+        <span class="n">unstr_writer</span><span class="o">.</span><span class="n">SetFileName</span><span class="p">(</span><span class="n">vtkFileName</span><span class="p">)</span>
+        <span class="n">unstr_writer</span><span class="o">.</span><span class="n">SetInputData</span><span class="p">(</span><span class="n">uGrid</span><span class="p">)</span>
+        <span class="n">unstr_writer</span><span class="o">.</span><span class="n">Write</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">vtkFileName</span></div>
+</div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2026, Xiaofeng Liu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
